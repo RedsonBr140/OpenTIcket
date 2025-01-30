@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-light">{{ _("Open a new ticket") }}</h1>
+
+
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- Display all form errors -->
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Title Field -->
+        <div class="mb-3">
+            <label for="title" class="form-label text-light">{{ _("Title") }}</label>
+            <div class="input-group">
+                <span class="input-group-text bg-dark text-light border-secondary">
+                    <i class="bi bi-pencil"></i>
+                </span>
+                <input type="text" name="title" id="title" class="form-control bg-dark text-light border-secondary"
+                    placeholder="{{ _('Enter ticket title') }}">
+                {% if form.title.errors %}
+                <div class="invalid-feedback d-block">
+                    <ul>
+                        {% for error in form.title.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="mb-3">
+            <label for="description" class="form-label text-light">{{ _("Description") }}</label>
+            <div id="quill-editor" class="bg-dark text-light"></div>
+            <input type="hidden" name="description" id="description">
+            {% if form.description.errors %}
+            <div class="invalid-feedback d-block">
+                <ul>
+                    {% for error in form.description.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    <div class="mb-3">
+        <label for="department" class="form-label text-light">{{ _("Department") }}</label>
+        {{ form.department }}
+        {% if form.department.errors %}
+        <div class="invalid-feedback d-block">
+            <ul>
+                {% for error in form.department.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">{{ _("Submit Ticket") }}</button>
+        </div>
+    </form>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+<!-- Quill Editor Script -->
+<script>
+    var quill = new Quill('#quill-editor', {
+        theme: 'snow',
+        placeholder: 'Enter description here...',
+        modules: {
+            toolbar: [
+                [{ 'header': '1' }, { 'header': '2' }],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                ['bold', 'italic', 'underline'],
+                [{ 'align': [] }],
+                ['link'],
+                ['blockquote'],
+                ['clean'],
+                ['image']
+            ]
+        }
+    });
+
+    // Convert Quill content to hidden input before form submission
+    document.querySelector('form').onsubmit = function () {
+        document.querySelector('#description').value = quill.root.innerHTML;
+    };
+</script>
+{% endblock %}

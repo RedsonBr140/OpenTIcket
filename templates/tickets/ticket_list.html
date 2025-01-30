@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-light">{{ _("Ticket List") }}</h2>
+
+    <!-- Filters and Search Form -->
+    <form method="GET" class="mb-4">
+        <div class="row g-2">
+            <!-- Search Input -->
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light border-secondary">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" name="search" id="search" value="{{ search_query }}"
+                        class="form-control bg-dark text-light border-secondary"
+                        placeholder="{{ _('Search') }}">
+                </div>
+            </div>
+            <!-- Status Filter -->
+            <div class="col-md-3">
+                <select name="status" class="form-select bg-dark text-light">
+                    <option value="">{{ _("All Status") }}</option>
+                    <option value="new" {% if request.GET.status == 'new' %}selected{% endif %}>{{ _("New") }}</option>
+                    <option value="in_progress" {% if request.GET.status == 'in_progress' %}selected{% endif %}>{{ _("In Progress") }}</option>
+                    <option value="resolved" {% if request.GET.status == 'resolved' %}selected{% endif %}>{{ _("Resolved") }}</option>
+                    <option value="canceled" {% if request.GET.status == 'canceled' %}selected{% endif %}>{{ _("Canceled") }}</option>
+                </select>
+            </div>
+            <!-- Priority Filter -->
+            <div class="col-md-3">
+                <select name="priority" class="form-select bg-dark text-light">
+                    <option value="">{{ _("All Priorities") }}</option>
+                    <option value="low" {% if request.GET.priority == 'low' %}selected{% endif %}>{{ _("Low") }}</option>
+                    <option value="medium" {% if request.GET.priority == 'medium' %}selected{% endif %}>{{ _("Medium") }}</option>
+                    <option value="high" {% if request.GET.priority == 'high' %}selected{% endif %}>{{ _("High") }}</option>
+                </select>
+            </div>
+            <!-- Submit Button -->
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-primary">{{ _("Apply Filters") }}</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Ticket List -->
+    <div class="table-responsive">
+        <table class="table table-dark table-bordered">
+            <thead>
+                <tr>
+                    <th>{{ _("Title") }}</th>
+                    <th>{{ _("Status") }}</th>
+                    <th>{{ _("Priority")}}</th>
+                    <th>{{ _("Assigned To") }}</th>
+                    <th>{{ _("Created at") }}</th>
+                    <th>{{ _("Actions") }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.title }}</td>
+                    <td>
+                        <span
+                            class="badge 
+                                {% if ticket.status == 'new' %}bg-primary{% elif ticket.status == 'in_progress' %}bg-warning{% elif ticket.status == 'resolved' %}bg-success{% else %}bg-secondary{% endif %}">
+                            {{ ticket.get_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <span
+                            class="badge 
+                                {% if ticket.priority == 'low' %}bg-success{% elif ticket.priority == 'medium' %}bg-warning{% else %}bg-danger{% endif %}">
+                            {{ ticket.get_priority_display }}
+                        </span>
+                    </td>
+                    <td> {% if ticket.assigned_to %} {{ ticket.assigned_to.username }} {% else %} {{ _("Unassigned") }} {% endif %}
+                    </td>
+                    <td>{{ ticket.created_at|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-info btn-sm">{{ _("View") }}</a>
+                        {% if request.user.is_staff %}
+                        <a href="{% url 'ticket_edit' ticket.id %}" class="btn btn-secondary btn-sm">{{ _("Edit") }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">{{ _("No tickets found") }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

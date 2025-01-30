@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="text-danger">{{ _("Access Denied") }}</h1>
+        <p class="text-light">{{ _("You do not have the necessary permissions to access this page.") }}</p>
+        <i class="bi bi-shield-lock text-danger" style="font-size: 5rem;"></i>
+
+        <div class="mt-4">
+            <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-secondary me-2">{{ _("Go Back") }}</a>
+            <a href="/" class="btn btn-primary">{{ _("Return to Dashboard") }}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

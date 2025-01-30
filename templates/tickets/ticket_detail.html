@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load markdown_filters %}
+
+{% block content %}
+
+<style>
+    .ticket-description img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+    }
+    
+    .ticket-description img:hover {
+        transform: scale(1.05);
+    }
+    
+</style>
+
+<div class="container mt-5">
+    <div class="card shadow-sm rounded-lg bg-dark text-light border border-secondary">
+        <div class="card-header bg-gradient-dark text-white text-center p-4">
+            <h1 class="display-4 mb-0">{{ ticket.title }}</h1>
+        </div>
+        <div class="card-body text-light">
+            <div class="row">
+                <!-- Ticket Info Section -->
+                <div class="col-lg-8">
+                    <div class="ticket-info mb-5">
+                        <p><strong>{{ _("Status") }}:</strong>
+                            <span
+                                class="badge {% if ticket.status == 'new' %}bg-primary{% elif ticket.status == 'in_progress' %}bg-warning{% elif ticket.status == 'resolved' %}bg-success{% else %}bg-secondary{% endif %}">{{ ticket.get_status_display }}</span>
+                        </p>
+                        <p><strong>{{ _("Created at") }}:</strong> {{ ticket.created_at|date:"d/m/Y H:i" }}</p>
+                        {% if ticket.updated_at %}
+                        <p><strong>{{ _("Last updated") }}:</strong> {{ ticket.updated_at|date:"d/m/Y H:i" }}</p>
+                        {% endif %}
+                        {% if ticket.resolved_at %}
+                        <p><strong>{{ _("Resolved at") }}:</strong> {{ ticket.resolved_at|date:"d/m/Y H:i" }}</p>
+                        {% endif %}
+                    </div>
+
+                    {% if ticket.resolution_notes %}
+                    <div class="ticket-resolution_notes mb-5">
+                        <h4 class="font-weight-bold">{{ _("Resolution notes") }}:</h4>
+                        <p class="lead text-muted">{{ ticket.resolution_notes | markdown | safe }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="ticket-description mb-5">
+                        <h4 class="font-weight-bold">{{ _("Description") }}:</h4>
+                        <p class="lead text-muted">{{ ticket.description | markdown | safe }}</p>
+                    </div>
+
+                    <div class="ticket-actions text-center mt-4">
+                        <a class="btn btn-outline-light btn-lg" href="{% url 'ticket_list' %}">
+                            <i class="bi bi-arrow-left-circle"></i> {{ _("Go back") }}
+                        </a>
+                        {% if request.user.is_staff %}
+                        <a class="btn btn-outline-primary btn-lg" href="{% url 'ticket_edit' ticket.id %}">
+                            <i class="bi bi-pencil-square"></i> {{ _("Edit") }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- Sidebar with Additional Ticket Details -->
+                <div class="col-lg-4">
+                    <div class="sticky-top" style="top: 20px;">
+                        <div class="card border-info mb-3 bg-dark text-light">
+                            <div class="card-header text-center bg-info text-white">
+                                <h5>{{ _("Ticket Details") }}</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item bg-dark text-light"><strong>{{ _("Ticket ID") }}:</strong> {{ ticket.id }}</li>
+                                    <li class="list-group-item bg-dark text-light"><strong>{{ _("Priority") }}:</strong>
+                                        <span
+                                            class="badge {% if ticket.priority == 'low' %}bg-success{% elif ticket.priority == 'medium' %}bg-warning{% else %}bg-danger{% endif %}">{{ ticket.get_priority_display }}</span>
+                                    </li>
+                                    <li class="list-group-item bg-dark text-light"><strong>{{ _("Assigned To") }}:</strong>  {% if ticket.assigned_to %} {{ ticket.assigned_to.username }} {% else %} {{ _("Unassigned") }} {% endif %} </li>
+                                    <li class="list-group-item bg-dark text-light"><strong>{{ _("Department") }}:</strong>
+                                        {{ ticket.department }}</li>
+                                    {% if ticket.tags %}
+                                    <li class="list-group-item bg-dark text-light"><strong>{{ _("Tags") }}:</strong>
+                                        <span class="badge badge-pill badge-secondary">{{ ticket.tags|join:', '
+                                            }}</span>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- TODO: Create a Image modal that you can use to zoom in the image. -->
+{% endblock %}
