@@ -15,7 +15,6 @@ class TicketForm(forms.ModelForm):
         fields = [
             'title',
             'description',
-            # 'priority',
             'department'
         ]
         widgets = {

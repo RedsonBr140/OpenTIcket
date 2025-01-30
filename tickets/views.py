@@ -23,7 +23,7 @@ def tickets_new(request):
     
     arguments['form'] = form
     return render(request, 'tickets/ticket_new.html', arguments)
-    
+
 @staff_member_required
 def ticket_edit(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
