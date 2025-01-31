@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-30 08:32-0300\n"
+"POT-Creation-Date: 2025-01-30 15:41-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -163,7 +163,7 @@ msgid "Confirm your password"
 msgstr "Confirme sua senha"
 
 #: templates/tickets/ticket_detail.html:30
-#: templates/tickets/ticket_edit.html:29 templates/tickets/ticket_list.html:53
+#: templates/tickets/ticket_edit.html:50 templates/tickets/ticket_list.html:53
 msgid "Status"
 msgstr "Estado"
 
@@ -176,66 +176,72 @@ msgstr "Criado em"
 msgid "Last updated"
 msgstr "Última vez atualizado"
 
-#: templates/tickets/ticket_detail.html:41
-#: templates/tickets/ticket_edit.html:23 templates/tickets/ticket_new.html:45
-msgid "Description"
-msgstr "Descrição"
+#: templates/tickets/ticket_detail.html:39
+#: templates/tickets/ticket_edit.html:56
+msgid "Resolved at"
+msgstr "Resolvido às"
 
-#: templates/tickets/ticket_detail.html:47
+#: templates/tickets/ticket_detail.html:45
 msgid "Resolution notes"
 msgstr "Notas de resolução"
 
-#: templates/tickets/ticket_detail.html:54
+#: templates/tickets/ticket_detail.html:51
+#: templates/tickets/ticket_edit.html:44 templates/tickets/ticket_new.html:45
+msgid "Description"
+msgstr "Descrição"
+
+#: templates/tickets/ticket_detail.html:57
 msgid "Go back"
 msgstr "Voltar"
 
-#: templates/tickets/ticket_detail.html:58
+#: templates/tickets/ticket_detail.html:61
+#: templates/tickets/ticket_list.html:84
 msgid "Edit"
 msgstr ""
 
-#: templates/tickets/ticket_detail.html:68
+#: templates/tickets/ticket_detail.html:71
 msgid "Ticket Details"
 msgstr "Detalhes do chamado"
 
-#: templates/tickets/ticket_detail.html:72
+#: templates/tickets/ticket_detail.html:75
 #, fuzzy
 #| msgid "Ticket"
 msgid "Ticket ID"
 msgstr "Chamado"
 
-#: templates/tickets/ticket_detail.html:73
-#: templates/tickets/ticket_edit.html:35 templates/tickets/ticket_list.html:54
+#: templates/tickets/ticket_detail.html:76
+#: templates/tickets/ticket_edit.html:62 templates/tickets/ticket_list.html:54
 msgid "Priority"
 msgstr "Prioridade"
 
-#: templates/tickets/ticket_detail.html:77
-#: templates/tickets/ticket_edit.html:41 templates/tickets/ticket_list.html:55
+#: templates/tickets/ticket_detail.html:80
+#: templates/tickets/ticket_edit.html:68 templates/tickets/ticket_list.html:55
 msgid "Assigned To"
 msgstr "Associado a"
 
-#: templates/tickets/ticket_detail.html:77
+#: templates/tickets/ticket_detail.html:80
 #: templates/tickets/ticket_list.html:78
 msgid "Unassigned"
 msgstr "Ninguém"
 
-#: templates/tickets/ticket_detail.html:78 templates/tickets/ticket_new.html:59
-#: tickets/models.py:7
+#: templates/tickets/ticket_detail.html:81 templates/tickets/ticket_new.html:59
+#: tickets/models.py:8
 msgid "Department"
 msgstr "Departamento"
 
-#: templates/tickets/ticket_detail.html:81
+#: templates/tickets/ticket_detail.html:84
 msgid "Tags"
 msgstr ""
 
-#: templates/tickets/ticket_edit.html:4
+#: templates/tickets/ticket_edit.html:25
 msgid "Edit Ticket"
 msgstr "Editar chamado"
 
-#: templates/tickets/ticket_edit.html:47
+#: templates/tickets/ticket_edit.html:74
 msgid "Resolution Notes"
 msgstr "Notas de Resolução"
 
-#: templates/tickets/ticket_edit.html:54
+#: templates/tickets/ticket_edit.html:81
 msgid "Update Ticket"
 msgstr "Atualizar o Chamado"
 
@@ -251,35 +257,35 @@ msgstr "Pesquisar"
 msgid "All Status"
 msgstr "Todos os estados"
 
-#: templates/tickets/ticket_list.html:25 tickets/models.py:28
+#: templates/tickets/ticket_list.html:25 tickets/models.py:30
 msgid "New"
 msgstr "Novo"
 
-#: templates/tickets/ticket_list.html:26 tickets/models.py:29
+#: templates/tickets/ticket_list.html:26 tickets/models.py:31
 msgid "In Progress"
 msgstr "Em Progresso"
 
-#: templates/tickets/ticket_list.html:27 tickets/models.py:30
+#: templates/tickets/ticket_list.html:27 tickets/models.py:32
 msgid "Resolved"
 msgstr "Resolvido"
 
-#: templates/tickets/ticket_list.html:28
-msgid "Closed"
-msgstr "Fechado"
+#: templates/tickets/ticket_list.html:28 tickets/models.py:33
+msgid "Canceled"
+msgstr "Cancelado"
 
 #: templates/tickets/ticket_list.html:34
 msgid "All Priorities"
 msgstr "Todas as Prioridades"
 
-#: templates/tickets/ticket_list.html:35 tickets/models.py:34
+#: templates/tickets/ticket_list.html:35 tickets/models.py:36
 msgid "Low"
 msgstr "Baixa"
 
-#: templates/tickets/ticket_list.html:36 tickets/models.py:35
+#: templates/tickets/ticket_list.html:36 tickets/models.py:37
 msgid "Medium"
 msgstr "Média"
 
-#: templates/tickets/ticket_list.html:37 tickets/models.py:36
+#: templates/tickets/ticket_list.html:37 tickets/models.py:38
 msgid "High"
 msgstr "Alta"
 
@@ -299,7 +305,7 @@ msgstr "Ações"
 msgid "View"
 msgstr "Ver"
 
-#: templates/tickets/ticket_list.html:87
+#: templates/tickets/ticket_list.html:90
 msgid "No tickets found"
 msgstr "Nenhum chamado foi encontrado"
 
@@ -315,25 +321,24 @@ msgstr "Insira o título do chamado"
 msgid "Submit Ticket"
 msgstr "Enviar chamado"
 
-#: tickets/forms.py:29
+#: tickets/forms.py:34
 msgid "You need to provide a description!"
 msgstr "Você precisa informar a descrição!"
 
-#: tickets/models.py:8
+#: tickets/models.py:9
 msgid "Departments"
 msgstr "Departamentos"
 
-#: tickets/models.py:17
+#: tickets/models.py:19
 msgid "Ticket"
 msgstr "Chamado"
 
-#: tickets/models.py:18
+#: tickets/models.py:20
 msgid "Tickets"
 msgstr "Chamados"
 
-#: tickets/models.py:31
-msgid "Canceled"
-msgstr "Cancelado"
+#~ msgid "Closed"
+#~ msgstr "Fechado"
 
 #, fuzzy
 #~| msgid "Log in"

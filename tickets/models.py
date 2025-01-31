@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 
+
 class Department(models.Model):
     class Meta:
         verbose_name = _("Department")
@@ -11,6 +12,7 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Ticket(models.Model):
     class Meta:
@@ -37,8 +39,10 @@ class Ticket(models.Model):
     ]
 
     # Choice fields
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
-    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='new')
+    priority = models.CharField(
+        max_length=10, choices=PRIORITY_CHOICES, default='medium')
 
     # Fields for tracking resolution
     resolved_at = models.DateTimeField(null=True, blank=True)
@@ -46,8 +50,10 @@ class Ticket(models.Model):
 
     # Relationships
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_tickets')
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, related_name='department', null=True)
+    assigned_to = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_tickets')
+    department = models.ForeignKey(
+        Department, on_delete=models.SET_NULL, related_name='department', null=True)
 
     def __str__(self):
         return f"{self.title} - {self.status}"

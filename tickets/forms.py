@@ -3,13 +3,17 @@ from tickets import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 
+
 class TicketForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
+
         departments = models.Department.objects.all()
-        self.fields['department'].widget.choices = [(dept.id, dept.name) for dept in departments]
-        self.fields['department'].widget.attrs = {'class': 'form-control bg-dark text-light'}
+        self.fields['department'].widget.choices = [
+            (dept.id, dept.name) for dept in departments]
+        self.fields['department'].widget.attrs = {
+            'class': 'form-control bg-dark text-light'}
+
     class Meta:
         model = models.Ticket
         fields = [
@@ -22,12 +26,14 @@ class TicketForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'id': 'quill-editor'}),
             'department': forms.Select()
         }
+
     def clean_description(self):
         description = self.cleaned_data['description']
         if description == "<p><br></p>" or not description:
-            raise forms.ValidationError(_('You need to provide a description!'))
+            raise forms.ValidationError(
+                _('You need to provide a description!'))
         return description
-    
+
     def clean_department(self):
         # Get the submitted value
         department = self.cleaned_data['department']
@@ -37,23 +43,31 @@ class TicketForm(forms.ModelForm):
         except models.Department.DoesNotExist:
             raise forms.ValidationError("Invalid department selected.")
         return department
-    
+
+
 class TicketEditForm(forms.ModelForm):
     class Meta:
         model = models.Ticket
-        fields = ['status', 'priority', 'assigned_to', 'resolution_notes']
+        fields = ['status', 'priority', 'assigned_to',
+                  'resolution_notes', 'resolved_at']
 
     # Ensure that 'status' and 'priority' are restricted to valid choices
-    status = forms.ChoiceField(choices=models.Ticket.STATUS_CHOICES, widget=forms.Select(attrs={'class': 'form-select bg-dark text-light'}))
-    priority = forms.ChoiceField(choices=models.Ticket.PRIORITY_CHOICES, widget=forms.Select(attrs={'class': 'form-select bg-dark text-light'}))
-    
+    status = forms.ChoiceField(choices=models.Ticket.STATUS_CHOICES, widget=forms.Select(
+        attrs={'class': 'form-select bg-dark text-light', 'id': 'status'}))
+    priority = forms.ChoiceField(choices=models.Ticket.PRIORITY_CHOICES, widget=forms.Select(
+        attrs={'class': 'form-select bg-dark text-light'}))
+
     # 'assigned_to' will use a ModelChoiceField to get users
-    assigned_to = forms.ModelChoiceField(required=False, queryset=User.objects.filter(is_staff=True), widget=forms.Select(attrs={'class': 'form-select bg-dark text-light'}))
+    assigned_to = forms.ModelChoiceField(required=False, queryset=User.objects.filter(
+        is_staff=True), widget=forms.Select(attrs={'class': 'form-select bg-dark text-light'}))
 
     # 'resolution_notes' will be a CharField, with the initial value set to the current resolution notes of the ticket
     resolution_notes = forms.CharField(
         widget=forms.HiddenInput(), required=False
     )
+
+    resolved_at = forms.DateTimeField(
+        required=False, widget=forms.DateInput(attrs={'class': 'form-control bg-dark text-light', 'type': 'datetime-local'}))
 
     def __init__(self, *args, **kwargs):
         # Populating the form with any existing ticket instance if available
@@ -64,3 +78,4 @@ class TicketEditForm(forms.ModelForm):
             self.fields['priority'].initial = self.instance.priority
             self.fields['assigned_to'].initial = self.instance.assigned_to
             self.fields['resolution_notes'].initial = self.instance.resolution_notes
+            self.fields['resolved_at'].initial = self.instance.resolved_at

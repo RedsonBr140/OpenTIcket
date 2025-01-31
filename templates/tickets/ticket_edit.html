@@ -12,6 +12,10 @@
     .ticket-description img:hover {
         transform: scale(1.05);
     }
+
+    .ticket-resolved_at {
+        display: none;
+    }
     
 </style>
 
@@ -47,6 +51,12 @@
             {{ form.status }}
         </div>
 
+        <!-- Hidden resolved at datetime -->
+        <div class="mb-3 ticket-resolved_at" id="ticket-resolved_at">
+            <label for="resolved_at" class="form-label text-light"> {{ _("Resolved at") }}</label>
+        {{ form.resolved_at }}
+        </div>
+
         <!-- Priority Field -->
         <div class="mb-3">
             <label for="priority" class="form-label text-light">{{ _("Priority") }}</label>
@@ -78,6 +88,34 @@
 
 <!-- Quill Editor Script -->
 <script>
+    status_element = document.getElementById("status")
+    ticket_resolved_at_div = document.getElementById("ticket-resolved_at")
+    datetime_input = ticket_resolved_at_div.querySelectorAll("input")[0]
+
+    function initializeResolvedAt() {
+        if(status_element.value == "resolved") {
+            console.log("We nailed it!")
+            ticket_resolved_at_div.style.display = "block"
+            const now = new Date()
+
+            const timezoneOffset = now.getTimezoneOffset() * 60000; // Convert offset to milliseconds
+            const localDateTime = new Date(now - timezoneOffset);
+
+            datetime_input.value = localDateTime.toISOString().slice(0,16)
+        } else {
+            ticket_resolved_at_div.style.display = "none"
+            datetime_input.value = ''
+        }
+        
+    }
+
+    status_element.addEventListener('change', function () {
+        initializeResolvedAt()
+    })
+
+    window.addEventListener('load', function () {
+        initializeResolvedAt()
+      })
     var quill = new Quill('#quill-editor', {
         theme: 'snow',
         placeholder: 'Enter resolution notes here...',
