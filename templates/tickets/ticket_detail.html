@@ -32,6 +32,7 @@
                                 class="badge {% if ticket.status == 'new' %}bg-primary{% elif ticket.status == 'in_progress' %}bg-warning{% elif ticket.status == 'resolved' %}bg-success{% else %}bg-secondary{% endif %}">{{ ticket.get_status_display }}</span>
                         </p>
                         <p><strong>{{ _("Created at") }}:</strong> {{ ticket.created_at|date:"d/m/Y H:i" }}</p>
+                        <p><strong>{{ _("Created by") }}:</strong> {{ ticket.author.first_name }} {{ ticket.author.last_name }} ({{ ticket.author }})</p>
                         {% if ticket.updated_at %}
                         <p><strong>{{ _("Last updated") }}:</strong> {{ ticket.updated_at|date:"d/m/Y H:i" }}</p>
                         {% endif %}
@@ -80,12 +81,6 @@
                                     <li class="list-group-item bg-dark text-light"><strong>{{ _("Assigned To") }}:</strong>  {% if ticket.assigned_to %} {{ ticket.assigned_to.username }} {% else %} {{ _("Unassigned") }} {% endif %} </li>
                                     <li class="list-group-item bg-dark text-light"><strong>{{ _("Department") }}:</strong>
                                         {{ ticket.department }}</li>
-                                    {% if ticket.tags %}
-                                    <li class="list-group-item bg-dark text-light"><strong>{{ _("Tags") }}:</strong>
-                                        <span class="badge badge-pill badge-secondary">{{ ticket.tags|join:', '
-                                            }}</span>
-                                    </li>
-                                    {% endif %}
                                 </ul>
                             </div>
                         </div>

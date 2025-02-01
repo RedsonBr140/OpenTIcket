@@ -13,29 +13,16 @@
                     <span class="input-group-text bg-dark text-light border-secondary">
                         <i class="bi bi-search"></i>
                     </span>
-                    <input type="text" name="search" id="search" value="{{ search_query }}"
-                        class="form-control bg-dark text-light border-secondary"
-                        placeholder="{{ _('Search') }}">
+                    {{ form.search_query }}
                 </div>
             </div>
             <!-- Status Filter -->
             <div class="col-md-3">
-                <select name="status" class="form-select bg-dark text-light">
-                    <option value="">{{ _("All Status") }}</option>
-                    <option value="new" {% if request.GET.status == 'new' %}selected{% endif %}>{{ _("New") }}</option>
-                    <option value="in_progress" {% if request.GET.status == 'in_progress' %}selected{% endif %}>{{ _("In Progress") }}</option>
-                    <option value="resolved" {% if request.GET.status == 'resolved' %}selected{% endif %}>{{ _("Resolved") }}</option>
-                    <option value="canceled" {% if request.GET.status == 'canceled' %}selected{% endif %}>{{ _("Canceled") }}</option>
-                </select>
+                {{ form.status }}
             </div>
             <!-- Priority Filter -->
             <div class="col-md-3">
-                <select name="priority" class="form-select bg-dark text-light">
-                    <option value="">{{ _("All Priorities") }}</option>
-                    <option value="low" {% if request.GET.priority == 'low' %}selected{% endif %}>{{ _("Low") }}</option>
-                    <option value="medium" {% if request.GET.priority == 'medium' %}selected{% endif %}>{{ _("Medium") }}</option>
-                    <option value="high" {% if request.GET.priority == 'high' %}selected{% endif %}>{{ _("High") }}</option>
-                </select>
+                {{ form.priority }}
             </div>
             <!-- Submit Button -->
             <div class="col-md-2 d-grid">
@@ -50,6 +37,7 @@
             <thead>
                 <tr>
                     <th>{{ _("Title") }}</th>
+                    <th>{{ _("Author") }}</th>
                     <th>{{ _("Status") }}</th>
                     <th>{{ _("Priority")}}</th>
                     <th>{{ _("Assigned To") }}</th>
@@ -61,6 +49,7 @@
                 {% for ticket in tickets %}
                 <tr>
                     <td>{{ ticket.title }}</td>
+                    <td>{{ ticket.author.first_name }}  {{ ticket.author.last_name }}</td>
                     <td>
                         <span
                             class="badge 

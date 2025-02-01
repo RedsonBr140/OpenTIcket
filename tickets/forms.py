@@ -79,3 +79,37 @@ class TicketEditForm(forms.ModelForm):
             self.fields['assigned_to'].initial = self.instance.assigned_to
             self.fields['resolution_notes'].initial = self.instance.resolution_notes
             self.fields['resolved_at'].initial = self.instance.resolved_at
+
+
+class TicketListFilterForm(forms.Form):
+    status = forms.ChoiceField(
+        choices=[('', _('All Status'))] + models.Ticket.STATUS_CHOICES, required=False,
+        widget=forms.Select(attrs={'class': 'form-select bg-dark text-light'})
+    )
+    priority = forms.ChoiceField(
+        choices=[('', _('All Priorities'))] + models.Ticket.PRIORITY_CHOICES, required=False,
+        widget=forms.Select(attrs={'class': 'form-select bg-dark text-light'})
+    )
+    assigned_to = forms.ModelChoiceField(
+        queryset=User.objects.filter(is_staff=True),
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-select bg-dark text-light'})
+    )
+    search_query = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control bg-dark text-light border-secondary'})
+    )
+
+    def clean_search_field(self):
+        data = self.cleaned_data["search_field"]
+
+        return data
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if not self.data.get('status'):
+            self.fields['status'].initial = ''
+        if not self.data.get('priority'):
+            self.fields['priority'].initial = ''

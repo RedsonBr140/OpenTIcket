@@ -1,0 +1,37 @@
+<table width="100%" cellspacing="0" cellpadding="0" style="background-color: #f5f5f5; padding: 20px;">
+    <tr>
+        <td align="center">
+            <table width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 8px; padding: 20px; font-family: Arial, sans-serif; color: #333;">
+                <tr>
+                    <td align="center" style="background-color: #d9534f; color: #ffffff; padding: 15px; font-size: 24px; font-weight: bold; border-radius: 8px 8px 0 0;">
+                        {{ _('New Ticket Created') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 20px; font-size: 16px; line-height: 1.5;">
+                        <p>{{ _('A new support ticket has been created. Please review the details below.') }}</p>
+                        <p><strong>{{ _('Ticket ID') }}:</strong> {{ ticket.id }}</p>
+                        <p><strong>{{ _('Title') }}:</strong> {{ ticket.title }}</p>
+                        <p><strong>{{ _('Status') }}:</strong> <span style="background-color: #0275d8; color: #ffffff; padding: 5px 10px; border-radius: 4px;">{{ ticket.get_status_display }}</span></p>
+                        <p><strong>{{ _('Priority') }}:</strong> 
+                            <span style="background-color: {% if ticket.priority == 'low' %}#5cb85c{% elif ticket.priority == 'medium' %}#f0ad4e{% else %}#d9534f{% endif %}; color: #ffffff; padding: 5px 10px; border-radius: 4px;">
+                                {{ ticket.get_priority_display }}
+                            </span>
+                        </p>
+                        <p><strong>{{ _('Created at') }}:</strong> {{ ticket.created_at|date:"d/m/Y H:i" }}</p>
+                        <p><strong>{{ _('Created by') }}:</strong> {{ ticket.author.first_name }} {{ ticket.author.last_name }} ({{ ticket.author }})</p>
+                        <p><strong>{{ _('Department') }}:</strong> {{ ticket.department }}</p>
+                        <hr>
+                        <h4 style="font-size: 18px;">{{ _('Description') }}</h4>
+                        <p style="color: #666;">{{ ticket.description | safe }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="padding: 20px;">
+                        <a href="{{ reverse_url }}" style="background-color: #0275d8; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 4px; font-size: 16px;">{{ _('View Ticket') }}</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
