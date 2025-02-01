@@ -90,18 +90,22 @@
 <script>
     status_element = document.getElementById("status")
     ticket_resolved_at_div = document.getElementById("ticket-resolved_at")
-    datetime_input = ticket_resolved_at_div.querySelectorAll("input")[0]
+    datetime_input = document.getElementById("id_resolved_at")
+
+    function convertToISO(date) {
+        const timezoneOffset = date.getTimezoneOffset() * 60000;
+        const localDateTime = new Date(date - timezoneOffset);
+
+        return localDateTime.toISOString().slice(0,16)
+    }
 
     function initializeResolvedAt() {
         if(status_element.value == "resolved") {
-            console.log("We nailed it!")
             ticket_resolved_at_div.style.display = "block"
+
             const now = new Date()
 
-            const timezoneOffset = now.getTimezoneOffset() * 60000; // Convert offset to milliseconds
-            const localDateTime = new Date(now - timezoneOffset);
-
-            datetime_input.value = localDateTime.toISOString().slice(0,16)
+            datetime_input.value = convertToISO(now)
         } else {
             ticket_resolved_at_div.style.display = "none"
             datetime_input.value = ''
@@ -114,7 +118,14 @@
     })
 
     window.addEventListener('load', function () {
+    /* If the status is already resolved, we do not want to
+     * Override the previous datetime. Just make it visible
+     */
+    if(status_element.value == "resolved") {
+            ticket_resolved_at_div.style.display = "block"
+    } else {
         initializeResolvedAt()
+    }
       })
     var quill = new Quill('#quill-editor', {
         theme: 'snow',

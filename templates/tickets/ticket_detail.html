@@ -79,8 +79,12 @@
                                             class="badge {% if ticket.priority == 'low' %}bg-success{% elif ticket.priority == 'medium' %}bg-warning{% else %}bg-danger{% endif %}">{{ ticket.get_priority_display }}</span>
                                     </li>
                                     <li class="list-group-item bg-dark text-light"><strong>{{ _("Assigned To") }}:</strong>  {% if ticket.assigned_to %} {{ ticket.assigned_to.username }} {% else %} {{ _("Unassigned") }} {% endif %} </li>
+                                    <li class="list-group-item bg-dark text-light"><strong>{{ _("Company") }}:</strong>
+                                        {{ ticket.company }}
+                                    </li>
                                     <li class="list-group-item bg-dark text-light"><strong>{{ _("Department") }}:</strong>
                                         {{ ticket.department }}</li>
+
                                 </ul>
                             </div>
                         </div>

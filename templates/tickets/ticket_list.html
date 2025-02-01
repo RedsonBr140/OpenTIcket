@@ -8,7 +8,7 @@
     <form method="GET" class="mb-4">
         <div class="row g-2">
             <!-- Search Input -->
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="input-group">
                     <span class="input-group-text bg-dark text-light border-secondary">
                         <i class="bi bi-search"></i>
@@ -21,12 +21,24 @@
                 {{ form.status }}
             </div>
             <!-- Priority Filter -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 {{ form.priority }}
+            </div>
+            <!-- Assigned to Filter -->
+            <div class="col-md-2">
+                {{ form.assigned_to}}
             </div>
             <!-- Submit Button -->
             <div class="col-md-2 d-grid">
                 <button type="submit" class="btn btn-primary">{{ _("Apply Filters") }}</button>
+            </div>
+            <div class="col-md-2">
+                <label for="initial_date" class="text-light">{{ _("Initial date") }}</label>
+                {{ form.initial_date }}
+            </div>
+            <div class="col-md-2">
+                <label for="end_date" class="text-light">{{ _("End date") }}</label>
+                {{ form.end_date }}
             </div>
         </div>
     </form>
@@ -38,6 +50,7 @@
                 <tr>
                     <th>{{ _("Title") }}</th>
                     <th>{{ _("Author") }}</th>
+                    <th>{{ _("Company") }}</th>
                     <th>{{ _("Status") }}</th>
                     <th>{{ _("Priority")}}</th>
                     <th>{{ _("Assigned To") }}</th>
@@ -50,6 +63,7 @@
                 <tr>
                     <td>{{ ticket.title }}</td>
                     <td>{{ ticket.author.first_name }}  {{ ticket.author.last_name }}</td>
+                    <td>{{ ticket.company }}</td>
                     <td>
                         <span
                             class="badge 
@@ -66,7 +80,7 @@
                     </td>
                     <td> {% if ticket.assigned_to %} {{ ticket.assigned_to.username }} {% else %} {{ _("Unassigned") }} {% endif %}
                     </td>
-                    <td>{{ ticket.created_at|date:"Y-m-d H:i" }}</td>
+                    <td>{{ ticket.created_at|date:"d/m/Y H:i" }}</td>
                     <td>
                         <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-info btn-sm">{{ _("View") }}</a>
                         {% if request.user.is_staff %}

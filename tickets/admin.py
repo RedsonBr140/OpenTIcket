@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import Department, Ticket
+from .models import Department, Ticket, Company
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
@@ -12,6 +12,7 @@ class TicketAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
 
 @admin.register(Department)
+@admin.register(Company)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'id')
     search_fields = ('name', 'id')

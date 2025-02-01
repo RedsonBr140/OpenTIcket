@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from django.utils.translation import gettext as _
 
 
@@ -9,6 +9,17 @@ class Department(models.Model):
         verbose_name_plural = _("Departments")
 
     name = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.name
+
+
+class Company(models.Model):
+    class Meta:
+        verbose_name = _("Company")
+        verbose_name_plural = _("Companies")
+
+    name = models.CharField(max_length=60)
 
     def __str__(self):
         return self.name
@@ -52,8 +63,10 @@ class Ticket(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     assigned_to = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_tickets')
-    department = models.ForeignKey(
-        Department, on_delete=models.SET_NULL, related_name='department', null=True)
+
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='company', null=True)
+
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, related_name='department', null=True)
 
     def __str__(self):
         return f"{self.title} - {self.status}"

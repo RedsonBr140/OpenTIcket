@@ -21,8 +21,6 @@ def send_ticket_new_email(request, ticket):
     reverse_url = request.build_absolute_uri(
         reverse('ticket_detail', args=[ticket.id]))
 
-    print(f"Mail list: {admins_emails}\nURL:{reverse_url}")
-
     html_content = render_to_string(
         'email/ticket_new.html', {'ticket': ticket, 'reverse_url': reverse_url})
     plain_text = strip_tags(html_content)
@@ -58,6 +56,7 @@ def tickets_new(request):
 def ticket_edit(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     staff_users = User.objects.filter(is_staff=True)
+
 
     arguments = {
         'ticket': ticket,
@@ -96,9 +95,6 @@ def ticket_detail(request, ticket_id):
 
 @login_required
 def ticket_list(request):
-    # status_filter = request.GET.get('status')
-    # priority_filter = request.GET.get('priority')
-    # search_query = request.GET.get('search', '')
 
     form = TicketListFilterForm(request.GET)
 
@@ -113,9 +109,8 @@ def ticket_list(request):
         priority_filter = form.cleaned_data.get('priority')
         assigned_to_filter = form.cleaned_data.get('assigned_to')
         search_query = form.cleaned_data.get('search_query')
-
-        print(f'{status_filter}\n{priority_filter}\n{
-              assigned_to_filter}\nSearch: {search_query}')
+        initial_date = form.cleaned_data.get('initial_date')
+        end_date = form.cleaned_data.get('end_date')
 
         if status_filter:
             tickets = tickets.filter(status=status_filter)
@@ -124,7 +119,6 @@ def ticket_list(request):
         if assigned_to_filter:
             tickets = tickets.filter(assigned_to=assigned_to_filter)
         if search_query:
-            print("GOT HERE?")
             tickets = tickets.filter(
                 Q(title__icontains=search_query) |
                 Q(description__icontains=search_query) |
@@ -133,6 +127,12 @@ def ticket_list(request):
                 Q(author__username__icontains=search_query) |
                 Q(author__first_name__icontains=search_query)
             )
+
+        # Apply date range filters
+        if initial_date:
+            tickets = tickets.filter(created_at__gte=initial_date)
+        if end_date:
+            tickets = tickets.filter(created_at__lte=end_date)
 
     tickets = tickets.order_by('-updated_at')
 

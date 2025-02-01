@@ -25,8 +25,7 @@
                 <span class="input-group-text bg-dark text-light border-secondary">
                     <i class="bi bi-pencil"></i>
                 </span>
-                <input type="text" name="title" id="title" class="form-control bg-dark text-light border-secondary"
-                    placeholder="{{ _('Enter ticket title') }}">
+                {{ form.title }}
                 {% if form.title.errors %}
                 <div class="invalid-feedback d-block">
                     <ul>
@@ -55,6 +54,21 @@
             </div>
             {% endif %}
         </div>
+
+    <div class="mb-3">
+        <label for="company" class="form-label text-light">{{ _("Company") }}</label>
+        {{ form.company }}
+        {% if form.company.errors %}
+        <div class="invalid-feedback d-block">
+            <ul>
+                {% for error in form.company.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+    </div>
     <div class="mb-3">
         <label for="department" class="form-label text-light">{{ _("Department") }}</label>
         {{ form.department }}
