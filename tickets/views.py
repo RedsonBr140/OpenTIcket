@@ -145,7 +145,7 @@ def ticket_list(request):
         sheet.title = "Tickets"
 
         # Define the headers for the Excel sheet
-        headers = ["ID", "Title", "Description", "Status", "Priority", "Assigned To", "Author", "Created At", "Updated At"]
+        headers = ["ID", "Title", "Description", "Company", "Department", "Status", "Priority", "Assigned To", "Author", "Created At", "Updated At", "Resolved at"]
         sheet.append(headers)
 
         # Populate the rows with ticket data
@@ -154,12 +154,15 @@ def ticket_list(request):
                 ticket.id,
                 ticket.title,
                 ticket.description,
+                ticket.company.name,
+                ticket.department.name,
                 ticket.status,
                 ticket.priority,
                 ticket.assigned_to.username if ticket.assigned_to else '',
                 ticket.author.username,
-                ticket.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-                ticket.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+                ticket.created_at.strftime('%Y-%m-%d %H:%M'),
+                ticket.updated_at.strftime('%Y-%m-%d %H:%M'),
+                ticket.resolved_at.strftime('%Y-%m-%d %H:%M') if ticket.resolved_at else '---'
             ]
             sheet.append(row)
 
