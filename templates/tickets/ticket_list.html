@@ -43,6 +43,10 @@
         </div>
     </form>
 
+    <!-- Download Button -->
+    <div class="mb-3">
+        <a href="?download=true{{ request.GET.urlencode|default:'' }}" class="btn btn-success">{{ _("Download tickets as Excel") }}</a>
+    </div>
     <!-- Ticket List -->
     <div class="table-responsive">
         <table class="table table-dark table-bordered">

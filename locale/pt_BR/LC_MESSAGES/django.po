@@ -22,6 +22,15 @@ msgstr ""
 msgid "OpenTIcket's admin page"
 msgstr "Página de administrador do OpenTIcket"
 
+msgid "Initial date"
+msgstr "Data inicial"
+
+msgid "End date"
+msgstr "Data final"
+
+msgid "Download tickets as Excel"
+msgstr "Baixar chamados em Excel"
+
 #: .\accounts\views.py:32
 msgid ""
 "Please enter a valid username and password. Note that all the fields are "
@@ -294,7 +303,7 @@ msgstr "Aplicar Filtros"
 
 #: .\templates\tickets\ticket_list.html:40
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: .\templates\tickets\ticket_list.html:46
 msgid "Actions"

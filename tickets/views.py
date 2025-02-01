@@ -1,3 +1,7 @@
+import os
+
+import openpyxl
+from django.http import HttpResponse
 from django.urls import reverse
 from django.db.models import Q
 import environ
@@ -9,7 +13,9 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 from django.utils.translation import gettext as _
 from django.template.loader import render_to_string
+from openpyxl.utils import get_column_letter
 
+from OpenTIcket import settings
 from .models import Ticket
 from tickets.forms import TicketEditForm, TicketForm, TicketListFilterForm
 
@@ -95,13 +101,10 @@ def ticket_detail(request, ticket_id):
 
 @login_required
 def ticket_list(request):
-
     form = TicketListFilterForm(request.GET)
+    tickets = Ticket.objects.all()
 
-    # If the user is not a staff we do not want them to see all tickets.
-    if request.user.is_staff:
-        tickets = Ticket.objects.all()
-    else:
+    if not request.user.is_staff:
         tickets = tickets.filter(author=request.user)
 
     if form.is_valid():
@@ -127,8 +130,6 @@ def ticket_list(request):
                 Q(author__username__icontains=search_query) |
                 Q(author__first_name__icontains=search_query)
             )
-
-        # Apply date range filters
         if initial_date:
             tickets = tickets.filter(created_at__gte=initial_date)
         if end_date:
@@ -136,4 +137,66 @@ def ticket_list(request):
 
     tickets = tickets.order_by('-updated_at')
 
+    # Check for the 'download' parameter to trigger Excel file generation
+    if 'download' in request.GET:
+        # Prepare the Excel sheet
+        workbook = openpyxl.Workbook()
+        sheet = workbook.active
+        sheet.title = "Tickets"
+
+        # Define the headers for the Excel sheet
+        headers = ["ID", "Title", "Description", "Status", "Priority", "Assigned To", "Author", "Created At", "Updated At"]
+        sheet.append(headers)
+
+        # Populate the rows with ticket data
+        for ticket in tickets:
+            row = [
+                ticket.id,
+                ticket.title,
+                ticket.description,
+                ticket.status,
+                ticket.priority,
+                ticket.assigned_to.username if ticket.assigned_to else '',
+                ticket.author.username,
+                ticket.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                ticket.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+            ]
+            sheet.append(row)
+
+            # Adjust column widths based on the longest text
+            for col_num in range(1, len(headers) + 1):
+                max_length = 0
+                column = get_column_letter(col_num)
+                for row in sheet.iter_rows(min_col=col_num, max_col=col_num):
+                    for cell in row:
+                        try:
+                            if len(str(cell.value)) > max_length:
+                                max_length = len(cell.value)
+                        except:
+                            pass
+                adjusted_width = (max_length + 2)
+                sheet.column_dimensions[column].width = adjusted_width
+
+            # Adjust row height to fit the content
+            for row in sheet.iter_rows(min_row=2, max_row=sheet.max_row):
+                for cell in row:
+                    try:
+                        # Check if the row needs to be resized
+                        cell_value = str(cell.value)
+                        if len(cell_value) > 50:  # Adjust the number as needed
+                            sheet.row_dimensions[cell.row].height = 40  # You can adjust the height value
+                    except:
+                        pass
+
+        # Create an HttpResponse to serve the Excel file
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="tickets.xlsx"'
+
+        # Save the workbook to the response
+        workbook.save(response)
+        return response
+
+    # TODO: Add pagination
+
+    # Default rendering of ticket list
     return render(request, 'tickets/ticket_list.html', {"tickets": tickets, 'form': form})
