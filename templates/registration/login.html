@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center text-light">{{ _("Log in") }}</h1>
+<div class="container-lg mt-5">
+    <h1 class="text-center">{{ _("Log in") }}</h1>
 
     <!-- Display Errors -->
     {% if error %}
@@ -15,34 +15,34 @@
 
         <!-- Username Field -->
         <div class="mb-3">
-            <label for="username" class="form-label text-light">{{ _("User") }}</label>
+            <label for="username" class="form-label">{{ _("User") }}</label>
             <div class="input-group">
-                <span class="input-group-text bg-dark text-light border-secondary">
+                <span class="input-group-text border-secondary">
                     <i class="bi bi-person"></i>
                 </span>
                 <input type="text" name="username" id="username"
-                    class="form-control bg-dark text-light border-secondary"
+                    class="form-control  border-secondary"
                     placeholder="{{ _('Enter your username') }}">
             </div>
         </div>
 
         <!-- Password Field -->
         <div class="mb-3">
-            <label for="password" class="form-label text-light">{{ _("Password") }}</label>
+            <label for="password" class="form-label">{{ _("Password") }}</label>
             <div class="input-group">
-                <span class="input-group-text bg-dark text-light border-secondary">
+                <span class="input-group-text border-secondary">
                     <i class="bi bi-asterisk"></i>
                 </span>
                 <input type="password" name="password" id="password"
-                    class="form-control bg-dark text-light border-secondary"
+                    class="form-control border-secondary"
                     placeholder="{{ _('Enter your password') }}">
             </div>
         </div>
 
         <!-- Remember Me Checkbox -->
-        <div class="mb-3 form-check text-light">
+        <div class="mb-3 form-check">
             <input type="checkbox" name="remember_me" id="rememberMe"
-                class="form-check-input bg-dark text-light border-secondary">
+                class="form-check-input border-secondary">
             <label class="form-check-label" for="remember_me">{{ _("Remember me") }}</label>
         </div>
 
@@ -52,7 +52,7 @@
         </div>
         <!-- Sign Up Link -->
         <div class="text-center mt-3">
-            <p class="text-light">{{ _("Don't have an account?") }} <a href="{% url "signup" %}"
+            <p>{{ _("Don't have an account?") }} <a href="{% url "signup" %}"
                     class="text-decoration-none text-primary">{{ _("Sign Up") }}</a></p>
         </div>
     </form>
