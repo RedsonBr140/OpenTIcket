@@ -2,103 +2,127 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-light">{{ _("Ticket List") }}</h2>
+    <h2 class="mb-3 bold">{{ _("Ticket List") }}</h2>
 
-    <!-- Filters and Search Form -->
+    <!-- Filters Form -->
     <form method="GET" class="mb-4">
-        <div class="row g-2">
-            <!-- Search Input -->
+        <div class="row g-2 align-items-end">
             <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-text bg-dark text-light border-secondary">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    {{ form.search_query }}
-                </div>
-            </div>
-            <!-- Status Filter -->
-            <div class="col-md-3">
+                <label for="status" class="form-label">{{ _("Status") }}</label>
                 {{ form.status }}
             </div>
-            <!-- Priority Filter -->
             <div class="col-md-2">
+                <label for="priority" class="form-label">{{ _("Priority") }}</label>
                 {{ form.priority }}
             </div>
-            <!-- Assigned to Filter -->
             <div class="col-md-2">
-                {{ form.assigned_to}}
-            </div>
-            <!-- Submit Button -->
-            <div class="col-md-2 d-grid">
-                <button type="submit" class="btn btn-primary">{{ _("Apply Filters") }}</button>
+                <label for="assigned_to" class="form-label">{{ _("Assigned To") }}</label>
+                {{ form.assigned_to }}
             </div>
             <div class="col-md-2">
-                <label for="initial_date" class="text-light">{{ _("Initial date") }}</label>
+                <label for="company" class="form-label">{{ _("Company") }}</label>
+                {{ form.company }}
+            </div>
+            <div class="col-md-2">
+                <label for="department" class="form-label">{{ _("Department") }}</label>
+                {{ form.department }}
+            </div>
+            <div class="col-md-2">
+                <label for="start_date" class="form-label">{{ _("Start Date") }}</label>
                 {{ form.initial_date }}
             </div>
             <div class="col-md-2">
-                <label for="end_date" class="text-light">{{ _("End date") }}</label>
+                <label for="end_date" class="form-label">{{ _("End Date") }}</label>
                 {{ form.end_date }}
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">{{ _("Apply Filters") }}</button>
             </div>
         </div>
     </form>
 
-    <!-- Download Button -->
-    <div class="mb-3">
-        <a href="?download=true{{ request.GET.urlencode|default:'' }}" class="btn btn-success">{{ _("Download tickets as Excel") }}</a>
+    <!-- Ticket Cards -->
+    <div class="row">
+        {% for ticket in tickets %}
+        <div class="col-md-12">
+            <div class="card mb-2 shadow-sm p-2">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="fw-bold mb-1">{{ ticket.title }}</h5>
+                        <p class="mb-0"><strong>{{ _("Author:") }}</strong> {{ ticket.author.first_name }} {{ ticket.author.last_name }}</p>
+                        <p class="mb-0"><strong>{{ _("State:") }}</strong> {{ ticket.get_status_display }}</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="mb-0"><strong>{{ _("Priority:") }}</strong> {{ ticket.get_priority_display }}</p>
+                    </div>
+                    <div class="text-end">
+                        <p class="mb-0"><strong>{{ _("Company:") }}</strong> {{ ticket.company }}</p>
+                        <p class="mb-0"><strong>{{ _("Assigned to:") }}</strong> 
+                            {% if ticket.assigned_to %} {{ ticket.assigned_to.username }} {% else %} {{ _("Unassigned") }} {% endif %}
+                        </p>
+                    </div>
+                    <div class="text-muted small">
+                        <p class="mb-0">{{ _("Created:") }} {{ ticket.created_at|date:"d/m/Y H:i"}}</p>
+                    </div>
+                </div>
+                <div>
+                    <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-primary">{{ _("View Details") }}</a>
+                    <a href="{% url 'ticket_edit' ticket.id %}" class="btn btn-secondary">{{ _("Edit") }}</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-muted">{{ _("No tickets found") }}</p>
+        </div>
+        {% endfor %}
     </div>
-    <!-- Ticket List -->
-    <div class="table-responsive">
-        <table class="table table-dark table-bordered">
-            <thead>
-                <tr>
-                    <th>{{ _("Title") }}</th>
-                    <th>{{ _("Author") }}</th>
-                    <th>{{ _("Company") }}</th>
-                    <th>{{ _("Status") }}</th>
-                    <th>{{ _("Priority")}}</th>
-                    <th>{{ _("Assigned To") }}</th>
-                    <th>{{ _("Created at") }}</th>
-                    <th>{{ _("Actions") }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ticket in tickets %}
-                <tr>
-                    <td>{{ ticket.title }}</td>
-                    <td>{{ ticket.author.first_name }}  {{ ticket.author.last_name }}</td>
-                    <td>{{ ticket.company }}</td>
-                    <td>
-                        <span
-                            class="badge 
-                                {% if ticket.status == 'new' %}bg-primary{% elif ticket.status == 'in_progress' %}bg-warning{% elif ticket.status == 'resolved' %}bg-success{% else %}bg-secondary{% endif %}">
-                            {{ ticket.get_status_display }}
-                        </span>
-                    </td>
-                    <td>
-                        <span
-                            class="badge 
-                                {% if ticket.priority == 'low' %}bg-success{% elif ticket.priority == 'medium' %}bg-warning{% else %}bg-danger{% endif %}">
-                            {{ ticket.get_priority_display }}
-                        </span>
-                    </td>
-                    <td> {% if ticket.assigned_to %} {{ ticket.assigned_to.username }} {% else %} {{ _("Unassigned") }} {% endif %}
-                    </td>
-                    <td>{{ ticket.created_at|date:"d/m/Y H:i" }}</td>
-                    <td>
-                        <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-info btn-sm">{{ _("View") }}</a>
-                        {% if request.user.is_staff %}
-                        <a href="{% url 'ticket_edit' ticket.id %}" class="btn btn-secondary btn-sm">{{ _("Edit") }}</a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6" class="text-center">{{ _("No tickets found") }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+</div>    
+
+<!-- Pagination Footer -->
+<footer class="footer">
+    <div class="container text-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if tickets.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo; First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ tickets.previous_page_number }}">{{ _("Previous") }}</a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ tickets.number }} of {{ tickets.paginator.num_pages }}</span>
+                </li>
+
+                {% if tickets.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ tickets.next_page_number }}">{{ _("Next") }}</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ tickets.paginator.num_pages }}">{{ _("Last") }} &raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
-</div>
+</footer>
+
+<style>
+    body {
+        padding-bottom: 70px; /* Adjust based on footer height */
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #f8f9fa; /* Light gray Bootstrap color */
+        padding: 10px 0;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+</style>
 {% endblock %}

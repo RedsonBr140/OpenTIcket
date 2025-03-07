@@ -7,29 +7,51 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tickets', '0008_remove_ticket_image'),
+        ("tickets", "0008_remove_ticket_image"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Company',
+            name="Company",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=60)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=60)),
             ],
             options={
-                'verbose_name': 'Company',
-                'verbose_name_plural': 'Companies',
+                "verbose_name": "Company",
+                "verbose_name_plural": "Companies",
             },
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='status',
-            field=models.CharField(choices=[('new', 'Novo'), ('in_progress', 'Em Progresso'), ('resolved', 'Resolvido'), ('canceled', 'Cancelado')], default='new', max_length=20),
+            model_name="ticket",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("new", "Novo"),
+                    ("in_progress", "Em Progresso"),
+                    ("resolved", "Resolvido"),
+                    ("canceled", "Cancelado"),
+                ],
+                default="new",
+                max_length=20,
+            ),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='company',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='company', to='tickets.company'),
+            model_name="ticket",
+            name="company",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="company",
+                to="tickets.company",
+            ),
         ),
     ]

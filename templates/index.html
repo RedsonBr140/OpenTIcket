@@ -2,32 +2,32 @@
 {% block content %}
         <div class="row">
             <div class="col-md-3">
-                <button class="btn btn-primary w-100 mb-2">{{_("Create New Ticket")}}</button>
-                <button class="btn btn-secondary w-100 mb-3">View Existing Tickets</button>
-                <h5>Filter by Status</h5>
+                <a href="{% url 'ticket_new' %}" class="btn btn-primary w-100 mb-2">{{ _("Create New Ticket") }}</a>
+                <a href="{% url 'ticket_list' %}" class="btn btn-secondary w-100 mb-3">{{ _("View Existing Tickets") }}</a>
+                <h5>{{ _("Filter by Status") }}</h5>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="open">
-                    <label class="form-check-label" for="open">Open</label>
+                    <label class="form-check-label" for="open">{{ _("Open") }}</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="inProgress">
-                    <label class="form-check-label" for="inProgress">In Progress</label>
+                    <label class="form-check-label" for="inProgress">{{ _("In Progress") }}</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="closed">
-                    <label class="form-check-label" for="closed">Closed</label>
+                    <label class="form-check-label" for="closed">{{ _("Closed") }}</label>
                 </div>
             </div>
             <div class="col-md-9">
-                <h3>Your Tickets</h3>
+                <h3>{{ _("Your Tickets") }}</h3>
                 <div class="row">
                     {% for ticket in tickets %}
                     <div class="col-md-4">
                         <div class="card p-3 mb-3">
-                            <h5 class="card-title">Ticket #{{ ticket.id }}</h5>
-                            <p class="bold">Status: {{ ticket.get_status_display }}</p>
-                            <p>Assigned to: {{ ticket.assigned_to }}</p>
-                            <p>Last Update: {{ ticket.updated_at|date:"d/m/Y H:i" }}</p>
+                            <h5 class="card-title bold">{{ ticket.title }}</h5>
+                            <p class="bold">{{ _("Status") }}: {{ ticket.get_status_display }}</p>
+                            <p>{{ _("Assigned to") }}: {{ ticket.assigned_to }}</p>
+                            <p>{{ _("Last Update") }}: {{ ticket.updated_at|date:"d/m/Y H:i" }}</p>
                             <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-primary w-100">{{ _("View Details") }}</a>
                         </div>
                     </div>
@@ -38,6 +38,6 @@
 <!--
     <footer class="text-center mt-4 p-3 border-top">
         <p>&copy; 2023 OpenTicket. All Rights Reserved.</p>
-        <a href="#">Contact Us</a> | <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
+        <a href="#">{{ _("Contact Us") }}</a> | <a href="#">{{ _("Terms of Service") }}</a> | <a href="#">{{ _("Privacy Policy") }}</a>
     </footer> -->
 {% endblock %}

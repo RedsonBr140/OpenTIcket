@@ -6,17 +6,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tickets', '0005_department_alter_ticket_options_and_more'),
+        ("tickets", "0005_department_alter_ticket_options_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='department',
-            options={'verbose_name': 'Departamento', 'verbose_name_plural': 'Departamentos'},
+            name="department",
+            options={
+                "verbose_name": "Departamento",
+                "verbose_name_plural": "Departamentos",
+            },
         ),
         migrations.RenameField(
-            model_name='department',
-            old_name='title',
-            new_name='name',
+            model_name="department",
+            old_name="title",
+            new_name="name",
         ),
     ]

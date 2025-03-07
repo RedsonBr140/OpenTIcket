@@ -1,60 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container-lg mt-5">
-    <h1 class="text-center">{{ _("Log in") }}</h1>
+<div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px);">
+    <div class="card shadow p-4 border-0 rounded-4" style="max-width: 400px; width: 100%">
+        <h1 class="text-center mb-4 bold">{{ _("Log in") }}</h1>
 
-    <!-- Display Errors -->
-    {% if error %}
-    <div class="alert alert-danger text-dark" role="alert">
-        {{ error }}
+        <!-- Display Errors -->
+        {% if error %}
+        <div class="alert alert-danger text-dark" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+
+            <!-- Username Field -->
+            <div class="mb-3">
+                <label for="username" class="form-label">{{ _("User") }}</label>
+                <div class="input-group">
+                    <span class="input-group-text rounded-start-3">
+                        <i class="bi bi-person"></i>
+                    </span>
+                    <input type="text" name="username" id="username" class="form-control rounded-end-3" placeholder="{{ _('Enter your username') }}">
+                </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+                <label for="password" class="form-label">{{ _("Password") }}</label>
+                <div class="input-group">
+                    <span class="input-group-text rounded-start-3">
+                        <i class="bi bi-asterisk"></i>
+                    </span>
+                    <input type="password" name="password" id="password" class="form-control rounded-end-3" placeholder="{{ _('Enter your password') }}">
+                </div>
+            </div>
+
+            <!-- Remember Me Checkbox -->
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="remember_me" id="rememberMe" class="form-check-input">
+                <label class="form-check-label" for="rememberMe">{{ _("Remember me") }}</label>
+            </div>
+
+            <!-- Log In Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary rounded-3">{{ _("Log in") }}</button>
+            </div>
+            
+            <!-- Sign Up Link -->
+            <div class="text-center mt-3">
+                <p>{{ _("Don't have an account?") }} <a href="{% url "register" %}" class="text-decoration-none">{{ _("Sign Up") }}</a></p>
+            </div>
+        </form>
     </div>
-    {% endif %}
-
-    <form action="" method="post" novalidate>
-        {% csrf_token %}
-
-        <!-- Username Field -->
-        <div class="mb-3">
-            <label for="username" class="form-label">{{ _("User") }}</label>
-            <div class="input-group">
-                <span class="input-group-text border-secondary">
-                    <i class="bi bi-person"></i>
-                </span>
-                <input type="text" name="username" id="username"
-                    class="form-control  border-secondary"
-                    placeholder="{{ _('Enter your username') }}">
-            </div>
-        </div>
-
-        <!-- Password Field -->
-        <div class="mb-3">
-            <label for="password" class="form-label">{{ _("Password") }}</label>
-            <div class="input-group">
-                <span class="input-group-text border-secondary">
-                    <i class="bi bi-asterisk"></i>
-                </span>
-                <input type="password" name="password" id="password"
-                    class="form-control border-secondary"
-                    placeholder="{{ _('Enter your password') }}">
-            </div>
-        </div>
-
-        <!-- Remember Me Checkbox -->
-        <div class="mb-3 form-check">
-            <input type="checkbox" name="remember_me" id="rememberMe"
-                class="form-check-input border-secondary">
-            <label class="form-check-label" for="remember_me">{{ _("Remember me") }}</label>
-        </div>
-
-        <!-- Log In Button -->
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">{{ _("Log in") }}</button>
-        </div>
-        <!-- Sign Up Link -->
-        <div class="text-center mt-3">
-            <p>{{ _("Don't have an account?") }} <a href="{% url "signup" %}"
-                    class="text-decoration-none text-primary">{{ _("Sign Up") }}</a></p>
-        </div>
-    </form>
 </div>
 {% endblock %}

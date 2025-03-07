@@ -1,113 +1,98 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center text-light">{{ _("Register") }}</h1>
-
-    <form action="" method="post" novalidate>
-        {% csrf_token %}
-        <div class="mb-1">
-<div class="row">
-            <div class="col">
-                <label class="form-label text-light" for="inlineFormInput">{{ _("First name") }}</label>
-                <input type="text" name="first_name" id="first_name" class="form-control bg-dark text-light border-secondary" placeholder="{{ _("Enter your first name") }}" value="{{ form.first_name.value }}">
-                {% if form.username.errors %}
-                <div class="text-danger">
+<div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px);">
+    <div class="card shadow p-4 border-0 rounded-4 text-center" style="max-width: 400px; width: 100%">
+        <h1 class="bold">{{ _("Register") }}</h1>
+        <form action="{% url 'register' %}" method="post" novalidate>
+            {% csrf_token %}
+            
+            <!-- First & Last Name Fields -->
+            <div class="row g-2">
+                <div class="col">
+                    <input type="text" name="first_name" id="first_name" class="form-control border-secondary" placeholder="{{ _("First name") }}" value="{{ form.first_name.value }}">
+                </div>
+                {% if form.first_name.errors %}
+                <div class="invalid-feedback d-block">
                     {% for error in form.first_name.errors %}
-                        <p>{{ error }}</p>
+                    <p>{{ error }}</p>
                     {% endfor %}
                 </div>
-            {% endif %}
-            </div>
-            <div class="col">
-                <label class="form-label text-light" for="inlineFormInput">{{ _("Last name") }}</label>
-                <input type="text" name="last_name" id="last_name" class="form-control bg-dark text-light border-secondary" placeholder="{{ _("Enter your last name") }}" value="{{ form.last_name.value }}">
-                {% if form.username.errors %}
-                <div class="text-danger">
+                {% endif %}
+                <div class="col">
+                    <input type="text" name="last_name" id="last_name" class="form-control border-secondary" placeholder="{{ _("Last name") }}" value="{{ form.last_name.value }}">
+                </div>
+                {% if form.last_name.errors %}
+                <div class="invalid-feedback d-block">
                     {% for error in form.last_name.errors %}
-                        <p>{{ error }}</p>
+                    <p>{{ error }}</p>
                     {% endfor %}
                 </div>
-            {% endif %}
+                {% endif %}
             </div>
-        </div>
-    </div>
-
-        <!-- Username Field -->
-        <div class="mb-1">
-            <label for="username" class="form-label text-light">{{ _("User") }}</label>
-            <div class="input-group">
-                <span class="input-group-text bg-dark text-light border-secondary">
+            
+            <!-- Username Field -->
+            <div class="input-group mt-2">
+                <span class="input-group-text border-secondary">
                     <i class="bi bi-person"></i>
                 </span>
-                <input type="text" name="username" id="username" class="form-control bg-dark text-light border-secondary" placeholder="{{ _('Enter your username') }}" value="{{ form.username.value }}">
+                <input type="text" name="username" id="username" class="form-control border-secondary" placeholder="{{ _('Username') }}" value="{{ form.username.value }}">
             </div>
             {% if form.username.errors %}
-                <div class="text-danger">
-                    {% for error in form.username.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
+            <div class="invalid-feedback d-block">
+                {% for error in form.username.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
             {% endif %}
-        </div>
-
-        <!-- Email Field -->
-        <div class="mb-1">
-            <label for="email" class="form-label text-light">{{ _("Email") }}</label>
-            <div class="input-group">
-                <span class="input-group-text bg-dark text-light border-secondary">
+            
+            <!-- Email Field -->
+            <div class="input-group mt-2">
+                <span class="input-group-text border-secondary">
                     <i class="bi bi-envelope"></i>
                 </span>
-                <input type="email" name="email" id="email" class="form-control bg-dark text-light border-secondary" placeholder="{{ _('Enter your email') }}" value="{{ form.email.value }}">
+                <input type="email" name="email" id="email" class="form-control border-secondary" placeholder="{{ _('Email') }}" value="{{ form.email.value }}">
             </div>
             {% if form.email.errors %}
-                <div class="text-danger">
-                    {% for error in form.email.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
+            <div class="invalid-feedback d-block">
+                {% for error in form.email.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
             {% endif %}
-        </div>
-
-        <!-- Password Field -->
-        <div class="mb-1">
-            <label for="password1" class="form-label text-light">{{ _("Password") }}</label>
-            <div class="input-group">
-                <span class="input-group-text bg-dark text-light border-secondary">
+            
+            <!-- Password Fields -->
+            <div class="input-group mt-2">
+                <span class="input-group-text border-secondary">
                     <i class="bi bi-asterisk"></i>
                 </span>
-                <input type="password" name="password1" id="password1" class="form-control bg-dark text-light border-secondary" placeholder="{{ _('Enter your password') }}">
+                <input type="password" name="password1" id="password1" class="form-control border-secondary" placeholder="{{ _('Password') }}">
             </div>
             {% if form.password1.errors %}
-                <div class="text-danger">
-                    {% for error in form.password1.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
+            <div class="invalid-feedback d-block">
+                {% for error in form.password1.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
             {% endif %}
-        </div>
-
-        <!-- Confirm Password Field -->
-        <div class="mb-1">
-            <label for="password2" class="form-label text-light">{{ _("Confirm password") }}</label>
-            <div class="input-group">
-                <span class="input-group-text bg-dark text-light border-secondary">
+            <div class="input-group mt-2">
+                <span class="input-group-text border-secondary">
                     <i class="bi bi-asterisk"></i>
                 </span>
-                <input type="password" name="password2" id="password2" class="form-control bg-dark text-light border-secondary" placeholder="{{ _('Confirm your password') }}">
+                <input type="password" name="password2" id="password2" class="form-control border-secondary" placeholder="{{ _('Confirm password') }}">
             </div>
             {% if form.password2.errors %}
-                <div class="text-danger">
-                    {% for error in form.password2.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
+            <div class="invalid-feedback d-block">
+                {% for error in form.password2.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
             {% endif %}
-        </div>
-
-        <!-- Register Button -->
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">{{ _("Register") }}</button>
-        </div>
-    </form>
+            
+            <!-- Register Button -->
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-primary">{{ _("Register") }}</button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="text-white">{{ _("Logged out") }}</h1>
-<p class="text-white">{{ _("Thanks for your time here today.") }}</p>
-<p><a class="link-underline-opacity-0 link-offset-0" href="/accounts/login">{{ _("Log in again") }}</a></p>
+<div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px);">
+    <div class="card shadow p-4 border-0 rounded-4 text-center" style="max-width: 400px; width: 100%">
+        <h1 class="bold text-danger">{{ _("Logged out") }}</h1>
+        <p class="text-muted">{{ _("Thanks for your time here today.") }}</p>
+        <div class="d-grid">
+            <a href="/accounts/login" class="btn btn-primary rounded-3">{{ _("Log in again") }}</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

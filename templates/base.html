@@ -3,38 +3,38 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Bootstrap Navbar</title>
+      <title>OpenTIcket</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <style>
          @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
          .bold {
-         font-family: "Lexend Deca", sans-serif;
-         font-optical-sizing: auto;
-         font-style: bold;
-         font-weight: 700;
+            font-family: "Lexend Deca", sans-serif;
+            font-optical-sizing: auto;
+            font-style: bold;
+            font-weight: 700;
          }
          .navbar {
-         background-color: #f8f9fa; /* Light gray background */
-         border-bottom: 1px solid #ddd; /* Subtle border */
+            background-color: #f8f9fa; /* Light gray background */
+            border-bottom: 1px solid #ddd; /* Subtle border */
          }
          .navbar-brand {
-         display: flex;
-         align-items: center;
+            display: flex;
+            align-items: center;
          }
          .navbar-brand i {
-         margin-right: 5px;
-         color: blue;
+            margin-right: 5px;
+            color: blue;
          }
          .search-box {
-         width: 250px;
+            width: 250px;
          }
          .user-profile {
-         display: flex;
-         align-items: center;
+            display: flex;
+            align-items: center;
          }
          .user-profile i {
-         margin-right: 5px;
-         color: #6c63ff;
+            margin-right: 5px;
+            color: #6c63ff;
          }
       </style>
    </head>
@@ -42,18 +42,42 @@
       <nav class="navbar navbar-expand-lg">
          <div class="container-fluid">
             <!-- Left Section -->
+            {% if request.user.is_authenticated is False %}
+               <div class="mx-auto"></div>
+            {% endif %}
             <a class="navbar-brand" href="{% url 'home' %}">
-            <i class="bi bi-ticket-perforated"></i> OpenTicket
+               <i class="bi bi-ticket-perforated"></i> <span class="bold">OpenTicket</span>
             </a>
+            {% if request.user.is_authenticated is False %}
+               <div></div>
+            {% endif %}
+            {% if request.user.is_authenticated %}
             <!-- Center Search Bar -->
             <div class="mx-auto">
-               <input class="form-control search-box" type="text" placeholder="Search tickets...">
+                    <form action="{% url 'ticket_list' %}" method="get" class="d-flex" onsubmit="return handleSearch(event)">
+                      <input class="form-control search-box" type="text" name="search_query" placeholder="Search tickets..." id="searchInput" value="{{ request.GET.search_query|default:'' }}">
+                      <button type="submit" class="btn btn-outline-primary ms-2 d-none">Search</button>
+                    </form>
+                    <script>
+                      function handleSearch(event) {
+                        event.preventDefault();
+                        const searchInput = document.getElementById('searchInput');
+                        const query = searchInput.value;
+                        if (query) {
+                           window.location.href = `{% url 'ticket_list' %}?search_query=${encodeURIComponent(query)}`;
+                        }
+                      }
+                    </script>
             </div>
             <!-- Right Section: User -->
             <div class="user-profile">
                <i class="bi bi-person-circle"></i>
-               <span>{{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user.username }})</span>
+               <!-- Link the user profile to the profile page -->
+               <a href="{% url 'profile' %}" class="text-decoration-none text-dark">
+                  <span>{{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user.username }})</span>
+               </a>
             </div>
+            {% endif %}
          </div>
       </nav>
       <div class="container mt-4">{% block content %}{% endblock %}</div>

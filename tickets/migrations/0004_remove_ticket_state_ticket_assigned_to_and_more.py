@@ -8,48 +8,67 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tickets', '0003_ticket_author'),
+        ("tickets", "0003_ticket_author"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='ticket',
-            name='state',
+            model_name="ticket",
+            name="state",
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='assigned_to',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='assigned_tickets', to=settings.AUTH_USER_MODEL),
+            model_name="ticket",
+            name="assigned_to",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="assigned_tickets",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='priority',
-            field=models.CharField(choices=[('low', 'Low'), ('medium', 'Medium'), ('high', 'High')], default='medium', max_length=10),
+            model_name="ticket",
+            name="priority",
+            field=models.CharField(
+                choices=[("low", "Low"), ("medium", "Medium"), ("high", "High")],
+                default="medium",
+                max_length=10,
+            ),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='resolution_notes',
+            model_name="ticket",
+            name="resolution_notes",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='resolved_at',
+            model_name="ticket",
+            name="resolved_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='status',
-            field=models.CharField(choices=[('new', 'New'), ('in_progress', 'In Progress'), ('resolved', 'Resolved'), ('closed', 'Closed')], default='new', max_length=20),
+            model_name="ticket",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("new", "New"),
+                    ("in_progress", "In Progress"),
+                    ("resolved", "Resolved"),
+                    ("closed", "Closed"),
+                ],
+                default="new",
+                max_length=20,
+            ),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='updated_at',
+            model_name="ticket",
+            name="updated_at",
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='created_at',
+            model_name="ticket",
+            name="created_at",
             field=models.DateTimeField(auto_now_add=True),
         ),
     ]

@@ -7,38 +7,64 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tickets', '0004_remove_ticket_state_ticket_assigned_to_and_more'),
+        ("tickets", "0004_remove_ticket_state_ticket_assigned_to_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Department',
+            name="Department",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=40)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=40)),
             ],
             options={
-                'verbose_name': 'Department',
-                'verbose_name_plural': 'Departments',
+                "verbose_name": "Department",
+                "verbose_name_plural": "Departments",
             },
         ),
         migrations.AlterModelOptions(
-            name='ticket',
-            options={'verbose_name': 'Chamado', 'verbose_name_plural': 'Chamados'},
+            name="ticket",
+            options={"verbose_name": "Chamado", "verbose_name_plural": "Chamados"},
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='priority',
-            field=models.CharField(choices=[('low', 'Baixa'), ('medium', 'Média'), ('high', 'Alta')], default='medium', max_length=10),
+            model_name="ticket",
+            name="priority",
+            field=models.CharField(
+                choices=[("low", "Baixa"), ("medium", "Média"), ("high", "Alta")],
+                default="medium",
+                max_length=10,
+            ),
         ),
         migrations.AlterField(
-            model_name='ticket',
-            name='status',
-            field=models.CharField(choices=[('new', 'Novo'), ('in_progress', 'Em Progresso'), ('resolved', 'Resolvido'), ('closed', 'Fechado')], default='new', max_length=20),
+            model_name="ticket",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("new", "Novo"),
+                    ("in_progress", "Em Progresso"),
+                    ("resolved", "Resolvido"),
+                    ("closed", "Fechado"),
+                ],
+                default="new",
+                max_length=20,
+            ),
         ),
         migrations.AddField(
-            model_name='ticket',
-            name='department',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='department', to='tickets.department'),
+            model_name="ticket",
+            name="department",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="department",
+                to="tickets.department",
+            ),
         ),
     ]

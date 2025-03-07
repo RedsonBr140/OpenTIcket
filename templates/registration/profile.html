@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card p-4 shadow-lg" style="width: 450px; border-radius: 10px;">
+        <h3 class="text-center mb-4">{{ request.user.first_name }}'s Profile</h3>
+        
+        <!-- User Info Section -->
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <strong>Username:</strong>
+                <span>{{ user.username }}</span>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <strong>Email:</strong>
+                <span>{{ user.email }}</span>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <strong>Full Name:</strong>
+                <span>{{ user.first_name }} {{ user.last_name }}</span>
+            </div>
+        </div>
+
+        <!-- Admin Status Section -->
+        {% if request.user.is_staff %}
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <strong>Status:</strong>
+                    <span class="badge bg-success">Admin</span>
+                    <a href="{% url 'admin:index' %}" class="btn btn-link btn-sm">Go to Admin Panel</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                    <strong>Status:</strong>
+                    <span class="badge bg-secondary">User</span>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Profile Edit Form -->
+        <form method="post" action="" novalidate>
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Username</label>
+                {{ form.username }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_email" class="form-label">Email</label>
+                {{ form.email }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_first_name" class="form-label">First Name</label>
+                {{ form.first_name }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_last_name" class="form-label">Last Name</label>
+                {{ form.last_name }}
+            </div>
+            
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary w-100">Update Profile</button>
+            </div>
+        </form>
+
+        <!-- Change Password Link -->
+        <div class="text-center mt-3">
+            <a href="{% url 'password_change' %}" class="text-decoration-none text-primary">Change Password</a>
+        </div>
+        <!-- Logout Button -->
+        <div class="text-center mt-3">
+            <a href="{% url 'logout' %}" class="btn btn-danger w-100">Logout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

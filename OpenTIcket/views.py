@@ -9,4 +9,4 @@ def home(request):
     tickets = Ticket.objects.all()
 
     tickets = tickets.filter(author=request.user)
-    return render(request, 'index.html', {'tickets': tickets})
+    return render(request, "index.html", {"tickets": tickets})

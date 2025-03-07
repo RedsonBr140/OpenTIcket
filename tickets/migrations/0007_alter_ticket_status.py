@@ -6,13 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tickets', '0006_alter_department_options_and_more'),
+        ("tickets", "0006_alter_department_options_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ticket',
-            name='status',
-            field=models.CharField(choices=[('new', 'Novo'), ('in_progress', 'Em Progresso'), ('resolved', 'Resolvido'), ('canceled', 'Canceled')], default='new', max_length=20),
+            model_name="ticket",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("new", "Novo"),
+                    ("in_progress", "Em Progresso"),
+                    ("resolved", "Resolvido"),
+                    ("canceled", "Canceled"),
+                ],
+                default="new",
+                max_length=20,
+            ),
         ),
     ]
