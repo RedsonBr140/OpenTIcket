@@ -13,6 +13,9 @@ class StaffMemberRequiredMixin(UserPassesTestMixin):
         return self.request.user.is_staff
 
 
+# TODO: Make this function asynchronous and use a task queue.
+
+
 def send_ticket_new_email(request, ticket):
     # Getting the admins emails for sending the notification.
     admins = User.objects.filter(is_staff=True)
@@ -20,7 +23,7 @@ def send_ticket_new_email(request, ticket):
     reverse_url = request.build_absolute_uri(reverse("ticket_detail", args=[ticket.id]))
 
     html_content = render_to_string(
-        "email/ticket_new.html", {"ticket": ticket, "reverse_url": reverse_url}
+        "email/ticket_notification.html", {"ticket": ticket, "reverse_url": reverse_url}
     )
     plain_text = strip_tags(html_content)
 

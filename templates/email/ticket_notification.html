@@ -1,6 +1,6 @@
 {% comment %} Summary for email preview and push notifications {% endcomment %}
 <p style="display: none; font-size: 1px; color: #ffffff; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
-    {{ _('New Ticket Created') }} - {{ ticket.title }} - {{ ticket.get_status_display }} - {{ ticket.get_priority_display }}
+    {{ ticket.title }} - {{ _('New Ticket Created') }} - {{ ticket.get_status_display }} - {{ ticket.get_priority_display }}
 </p>
 
 <table width="100%" cellspacing="0" cellpadding="0" style="background-color: #f5f5f5; padding: 20px;">
@@ -14,9 +14,9 @@
             </tr>
             <tr>
                 <td style="padding: 20px; font-size: 16px; line-height: 1.5;">
+                    <p><strong>{{ _('Title') }}:</strong> {{ ticket.title }}</p>
                     <p>{{ _('A new support ticket has been created. Please review the details below.') }}</p>
                     <p><strong>{{ _('Ticket ID') }}:</strong> {{ ticket.id }}</p>
-                    <p><strong>{{ _('Title') }}:</strong> {{ ticket.title }}</p>
                     <p><strong>{{ _('Status') }}:</strong> <span style="background-color: #0275d8; color: #ffffff; padding: 5px 10px; border-radius: 4px;">{{ ticket.get_status_display }}</span></p>
                     <p><strong>{{ _('Priority') }}:</strong> 
                         <span style="background-color: {% if ticket.priority == 'low' %}#5cb85c{% elif ticket.priority == 'medium' %}#f0ad4e{% else %}#d9534f{% endif %}; color: #ffffff; padding: 5px 10px; border-radius: 4px;">
@@ -26,6 +26,7 @@
                     <p><strong>{{ _('Created at') }}:</strong> {{ ticket.created_at|date:"d/m/Y H:i" }}</p>
                     <p><strong>{{ _('Created by') }}:</strong> {{ ticket.author.first_name }} {{ ticket.author.last_name }} ({{ ticket.author }})</p>
                     <p><strong>{{ _('Department') }}:</strong> {{ ticket.department }}</p>
+                    <p><strong>{{ _('Company') }}:</strong> {{ ticket.company }}</p>
                     <hr>
                     <h4 style="font-size: 18px;">{{ _('Description') }}</h4>
                     <p style="color: #666;">{{ ticket.description | safe }}</p>

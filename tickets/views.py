@@ -28,6 +28,10 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
         send_ticket_new_email(self.request, self.object)
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse("ticket_detail", kwargs={"pk": self.object.id})
+
+
 class TicketEditView(StaffMemberRequiredMixin, UpdateView):
     model = Ticket
     fields = ["status", "priority", "assigned_to", "resolution_notes"]
