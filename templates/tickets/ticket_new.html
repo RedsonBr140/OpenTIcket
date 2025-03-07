@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}{{ _("Open a New Ticket") }}{% endblock %}
+
 {% block content %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px);">
     <div class="card shadow p-4 border-0 rounded-4" style="max-width: 500px; width: 100%">
@@ -16,7 +18,7 @@
         </div>
         {% endif %}
 
-        <form action="" method="post" novalidate>
+        <form action="" method="post" novalidate onsubmit="populateDescription()">
             {% csrf_token %}
 
             <!-- Title Field -->
@@ -39,9 +41,9 @@
 
             <!-- Description Field -->
             <div class="mb-4">
-                <label for="description" class="form-label">{{ _("Ticket Description") }}</label>
-                <div id="quill-editor" class="rounded-3"></div>
-                <input type="hidden" name="description" id="description">
+                <label for="description" class="form-label">{{ _("Description") }}</label>
+                <div id="quill-editor"></div>
+                <input type="hidden" name="description" id="description" value="{{ form.description.value|default:''|safe }}">
                 {% if form.description.errors %}
                 <div class="invalid-feedback d-block">
                     {% for error in form.description.errors %}
@@ -95,11 +97,12 @@
     </div>
 </div>
 
-<!-- Quill Editor Styles and Script -->
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+
+<!-- Include the Quill library -->
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 
-<!-- Quill Editor Script -->
+<!-- Initialize Quill editor -->
 <script>
     var quill = new Quill('#quill-editor', {
         theme: 'snow',
@@ -112,14 +115,17 @@
                 [{ 'align': [] }],
                 ['link'],
                 ['blockquote'],
-                ['clean'],
-                ['image']
+                ['clean']
             ]
         }
     });
 
+    // Set initial Quill content from the form's description field
+    quill.root.innerHTML = document.querySelector('#description').value;
+
     // Convert Quill content to hidden input before form submission
-    document.querySelector('form').onsubmit = function () {
+    function populateDescription() {
+        console.log('Submitting form with Quill content:', quill.root.innerHTML);
         document.querySelector('#description').value = quill.root.innerHTML;
     };
 </script>

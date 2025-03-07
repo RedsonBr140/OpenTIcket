@@ -16,9 +16,6 @@ class TicketForm(forms.ModelForm):
                     "placeholder": _("Enter ticket title"),
                 }
             ),
-            "description": forms.Textarea(
-                attrs={"class": "form-control", "id": "quill-editor"}
-            ),
             "department": forms.Select(attrs={"class": "form-control"}),
             "company": forms.Select(attrs={"class": "form-control"}),
         }

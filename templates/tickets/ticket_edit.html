@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-
+<!-- TODO: Rewrite the entire thing... -->
+<!-- TODO: Do resolution notes as comments -->
 <style>
     .ticket-description img {
         max-width: 100%;
@@ -22,8 +23,8 @@
 {% for error in form.errors %}<p>{{error}}</p>{% endfor %}
 
 <div class="container mt-5">
-    <h1 class="text-center text-light">{{ _("Edit Ticket") }}</h1>
-    <h3 class="text-center text-light"> {{ ticket.title|safe }} </h3>
+    <h1 class="text-center">{{ _("Edit Ticket") }}</h1>
+    <h3 class="text-center"> {{ ticket.title|safe }} </h3>
 
     <form action="" method="post" novalidate>
         {% csrf_token %}
@@ -41,38 +42,38 @@
 
         <!-- Description Field (Read-only for edit) -->
         <div class="mb-3">
-            <label for="description" class="form-label text-light">{{ _("Description") }}</label>
-            <div class="bg-dark text-light p-3 border-secondary rounded ticket-description">{{ ticket.description|safe }}</div>
+            <label for="description" class="form-label">{{ _("Description") }}</label>
+            <div class=" p-3 border-secondary rounded ticket-description">{{ ticket.description|safe }}</div>
         </div>
 
         <!-- Status Field -->
         <div class="mb-3">
-            <label for="status" class="form-label text-light">{{ _("Status") }}</label>
+            <label for="status" class="form-label">{{ _("Status") }}</label>
             {{ form.status }}
         </div>
 
         <!-- Hidden resolved at datetime -->
         <div class="mb-3 ticket-resolved_at" id="ticket-resolved_at">
-            <label for="resolved_at" class="form-label text-light"> {{ _("Resolved at") }}</label>
+            <label for="resolved_at" class="form-label"> {{ _("Resolved at") }}</label>
         {{ form.resolved_at }}
         </div>
 
         <!-- Priority Field -->
         <div class="mb-3">
-            <label for="priority" class="form-label text-light">{{ _("Priority") }}</label>
+            <label for="priority" class="form-label">{{ _("Priority") }}</label>
             {{ form.priority }}
         </div>
 
         <!-- Assigned To Field -->
         <div class="mb-3">
-            <label for="assigned_to" class="form-label text-light">{{ _("Assigned To") }}</label>
+            <label for="assigned_to" class="form-label">{{ _("Assigned To") }}</label>
             {{ form.assigned_to }}
         </div>
 
         <!-- Resolution Notes Field -->
         <div class="mb-3">
-            <label for="resolution_notes" class="form-label text-light">{{ _("Resolution Notes") }}</label>
-            <div id="quill-editor" class="bg-dark text-light"></div>
+            <label for="resolution_notes" class="form-label">{{ _("Resolution Notes") }}</label>
+            <div id="quill-editor" class=""></div>
             <input type="hidden" name="resolution_notes" id="resolution_notes" value="{{ ticket.resolution_notes|default:''|safe }}">
         </div>
 

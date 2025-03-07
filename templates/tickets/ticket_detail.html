@@ -24,7 +24,7 @@
                         {% endif %}
                     </div>
 
-                    {% if ticket.resolution_notes %}
+                    {% if ticket.resolution_notes and ticket.resolution_notes != "<p><br></p>" %}
                     <div class="ticket-resolution_notes mb-5">
                         <h4 class="font-weight-bold">{{ _("Resolution notes") }}:</h4>
                         <p class="lead text-muted">{{ ticket.resolution_notes | markdown | safe }}</p>

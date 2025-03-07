@@ -1,5 +1,4 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -80,18 +79,3 @@ class ProfileView(LoginRequiredMixin, View):
             form.save()
             return redirect("profile")
         return render(request, "registration/profile.html", {"form": form})
-
-
-@login_required
-def profile_view(request):
-    if request.method == "POST":
-        form = UserProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect(
-                "profile"
-            )  # Redirect to the profile page after successful update
-    else:
-        form = UserProfileForm(instance=request.user)
-
-    return render(request, "registration/profile.html", {"form": form})
