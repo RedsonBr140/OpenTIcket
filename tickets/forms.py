@@ -50,59 +50,6 @@ class TicketForm(forms.ModelForm):
         return department
 
 
-class TicketEditForm(forms.ModelForm):
-    class Meta:
-        model = models.Ticket
-        fields = ["status", "priority", "assigned_to", "resolution_notes"]
-        widgets = {
-            "status": forms.Select(
-                attrs={"class": "form-select bg-dark text-light", "id": "status"}
-            ),
-            "priority": forms.Select(attrs={"class": "form-select bg-dark text-light"}),
-            "assigned_to": forms.Select(
-                attrs={"class": "form-select bg-dark text-light"}
-            ),
-            "resolution_notes": forms.HiddenInput(),
-            "resolved_at": forms.DateInput(
-                attrs={
-                    "class": "form-control bg-dark text-light",
-                    "type": "datetime-local",
-                }
-            ),
-        }
-
-    status = forms.ChoiceField(choices=models.Ticket.STATUS_CHOICES)
-    priority = forms.ChoiceField(choices=models.Ticket.PRIORITY_CHOICES)
-    assigned_to = forms.ModelChoiceField(
-        queryset=User.objects.filter(is_staff=True), required=False
-    )
-    resolution_notes = forms.CharField(widget=forms.HiddenInput(), required=False)
-    resolved_at = forms.DateTimeField(required=False)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.instance and self.instance.pk:
-            self._set_initial_values()
-
-    def _set_initial_values(self):
-        self.fields["status"].initial = self.instance.status
-        self.fields["priority"].initial = self.instance.priority
-        self.fields["assigned_to"].initial = self.instance.assigned_to
-        self.fields["resolution_notes"].initial = self.instance.resolution_notes
-        self.fields["resolved_at"].initial = (
-            localtime(self.instance.resolved_at).strftime("%Y-%m-%dT%H:%M")
-            if self.instance.resolved_at
-            else None
-        )
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        instance.resolved_at = self.cleaned_data.get("resolved_at") or None
-        if commit:
-            instance.save()
-        return instance
-
-
 class TicketListFilterForm(forms.Form):
     status = forms.ChoiceField(
         choices=[("", _("All Status"))] + models.Ticket.STATUS_CHOICES,

@@ -34,8 +34,16 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
 
 class TicketEditView(StaffMemberRequiredMixin, UpdateView):
     model = Ticket
-    fields = ["status", "priority", "assigned_to", "resolution_notes"]
+    fields = ["status", "resolved_at", "priority", "assigned_to"]
     template_name_suffix = "_edit"
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields["status"].widget.attrs.update({"class": "form-select"})
+        form.fields["priority"].widget.attrs.update({"class": "form-select"})
+        form.fields["assigned_to"].widget.attrs.update({"class": "form-select"})
+        form.fields["resolved_at"].widget.attrs.update({"class": "form-control", "type": "datetime-local"})
+        return form
 
     def get_success_url(self):
         return reverse("ticket_detail", kwargs={"pk": self.object.id})

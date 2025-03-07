@@ -1,33 +1,12 @@
 {% extends "base.html" %}
+
+{% block title %}{{ _("Edit Ticket") }}{% endblock %}
+
 {% block content %}
-<!-- TODO: Rewrite the entire thing... -->
-<!-- TODO: Do resolution notes as comments -->
-<style>
-    .ticket-description img {
-        max-width: 100%;
-        height: auto;
-        cursor: pointer;
-        transition: transform 0.2s ease-in-out;
-    }
-    
-    .ticket-description img:hover {
-        transform: scale(1.05);
-    }
-
-    .ticket-resolved_at {
-        display: none;
-    }
-    
-</style>
-
-{% for error in form.errors %}<p>{{error}}</p>{% endfor %}
-
-<div class="container mt-5">
-    <h1 class="text-center">{{ _("Edit Ticket") }}</h1>
-    <h3 class="text-center"> {{ ticket.title|safe }} </h3>
-
-    <form action="" method="post" novalidate>
-        {% csrf_token %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px);">
+    <div class="card shadow p-4 border-0 rounded-4" style="max-width: 500px; width: 100%">
+        <h1 class="text-center mb-4 bold">{{ _("Edit Ticket") }}</h1>
+        <h3 class="text-center"> {{ ticket.title|safe }} </h3>
 
         <!-- Display all form errors -->
         {% if form.non_field_errors %}
@@ -41,55 +20,28 @@
         {% endif %}
 
         <!-- Description Field (Read-only for edit) -->
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="description" class="form-label">{{ _("Description") }}</label>
-            <div class=" p-3 border-secondary rounded ticket-description">{{ ticket.description|safe }}</div>
+            <div class="p-3 border-secondary rounded ticket-description">{{ ticket.description|safe }}</div>
         </div>
 
-        <!-- Status Field -->
-        <div class="mb-3">
-            <label for="status" class="form-label">{{ _("Status") }}</label>
-            {{ form.status }}
-        </div>
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
 
-        <!-- Hidden resolved at datetime -->
-        <div class="mb-3 ticket-resolved_at" id="ticket-resolved_at">
-            <label for="resolved_at" class="form-label"> {{ _("Resolved at") }}</label>
-        {{ form.resolved_at }}
-        </div>
+            <div class="ticket-form">
+                {{ form.as_p }}
+            </div>
 
-        <!-- Priority Field -->
-        <div class="mb-3">
-            <label for="priority" class="form-label">{{ _("Priority") }}</label>
-            {{ form.priority }}
-        </div>
-
-        <!-- Assigned To Field -->
-        <div class="mb-3">
-            <label for="assigned_to" class="form-label">{{ _("Assigned To") }}</label>
-            {{ form.assigned_to }}
-        </div>
-
-        <!-- Resolution Notes Field -->
-        <div class="mb-3">
-            <label for="resolution_notes" class="form-label">{{ _("Resolution Notes") }}</label>
-            <div id="quill-editor" class=""></div>
-            <input type="hidden" name="resolution_notes" id="resolution_notes" value="{{ ticket.resolution_notes|default:''|safe }}">
-        </div>
-
-        <!-- Submit Button -->
-        <div class="text-center">
-            <button type="submit" class="btn btn-outline-primary btn-lg"> <i class="bi bi-pencil-square"></i> {{ _("Update Ticket") }}</button>
-        </div>
-    </form>
+            <!-- Submit Button -->
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-success rounded-3">{{ _("Submit Ticket") }}</button>
+            </div>
+        </form>
+    </div>
 </div>
 
-<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-
-<!-- Quill Editor Script -->
 <script>
-    status_element = document.getElementById("status")
+    status_element = document.getElementById("id_status")
     ticket_resolved_at_div = document.getElementById("ticket-resolved_at")
     datetime_input = document.getElementById("id_resolved_at")
 
@@ -119,37 +71,14 @@
     })
 
     window.addEventListener('load', function () {
-    /* If the status is already resolved, we do not want to
-     * Override the previous datetime. Just make it visible
-     */
-    if(status_element.value == "resolved") {
-            ticket_resolved_at_div.style.display = "block"
-    } else {
-        initializeResolvedAt()
-    }
-      })
-    var quill = new Quill('#quill-editor', {
-        theme: 'snow',
-        placeholder: 'Enter resolution notes here...',
-        modules: {
-            toolbar: [
-                [{ 'header': '1' }, { 'header': '2' }],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                ['bold', 'italic', 'underline'],
-                [{ 'align': [] }],
-                ['link'],
-                ['blockquote'],
-                ['clean']
-            ]
+        /* If the status is already resolved, we do not want to
+        * Override the previous datetime. Just make it visible
+        */
+        if(status_element.value == "resolved") {
+                ticket_resolved_at_div.style.display = "block"
+        } else {
+            initializeResolvedAt()
         }
-    });
-
-    // Set initial Quill content from the ticket's resolution notes
-    quill.root.innerHTML = document.querySelector('#resolution_notes').value;
-
-    // Convert Quill content to hidden input before form submission
-    document.querySelector('form').onsubmit = function () {
-        document.querySelector('#resolution_notes').value = quill.root.innerHTML;
-    };
+    })
 </script>
 {% endblock %}
