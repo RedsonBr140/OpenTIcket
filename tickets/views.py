@@ -39,6 +39,7 @@ class TicketEditView(StaffMemberRequiredMixin, UpdateView):
     
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
+        form.fields["assigned_to"].queryset = User.objects.filter(is_staff=True)
         form.fields["status"].widget.attrs.update({"class": "form-select"})
         form.fields["priority"].widget.attrs.update({"class": "form-select"})
         form.fields["assigned_to"].widget.attrs.update({"class": "form-select"})
