@@ -102,7 +102,8 @@ TEMPLATES = [
 ]
 
 # Email settings
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# FIXME: Change this back to smtp before committing
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_HOST = env("EMAIL_HOST")  # Replace with your SMTP host
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # Your email address
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # Your email password

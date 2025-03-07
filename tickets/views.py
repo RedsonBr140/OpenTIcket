@@ -55,8 +55,6 @@ class TicketDetailView(LoginRequiredMixin, DetailView):
         ):
             return render(self.request, "authorization_error.html")
 
-        print(ticket.resolution_notes)
-
         context["ticket"] = ticket
         return context
 
