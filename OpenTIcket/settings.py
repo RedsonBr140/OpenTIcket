@@ -26,9 +26,6 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))  # Reads the .env file
 
 
 SECRET_KEY = env("SECRET_KEY")  # Keep the secret key used in production secret!
-DEBUG = env.bool(
-    "DEBUG", default=False
-)  # WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
 
 # Database
@@ -100,15 +97,6 @@ TEMPLATES = [
         },
     },
 ]
-
-# Email settings
-# FIXME: Change this back to smtp before committing
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-EMAIL_HOST = env("EMAIL_HOST")  # Replace with your SMTP host
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # Your email address
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # Your email password
-EMAIL_PORT = env.int("EMAIL_PORT", default=465)  # SMTP port
-EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=True)  # Use SSL for secure connection
 
 WSGI_APPLICATION = "OpenTIcket.wsgi.application"
 
