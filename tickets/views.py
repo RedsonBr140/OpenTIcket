@@ -1,7 +1,6 @@
 import openpyxl
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.contrib.messages import success
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -11,8 +10,9 @@ from django.views.generic.edit import FormView
 from openpyxl.utils import get_column_letter
 
 from tickets.forms import TicketForm, TicketListFilterForm, CommentForm, ReplyForm
-from tickets.utils import StaffMemberRequiredMixin, send_ticket_new_email
+from tickets.utils import StaffMemberRequiredMixin
 from .models import Ticket, Comment, Reply
+from .tasks import send_ticket_email_task
 
 
 class TicketCreateView(LoginRequiredMixin, CreateView):
@@ -24,7 +24,10 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
         self.object.save()
-        send_ticket_new_email(self.request, self.object)
+
+        absolute_uri = self.request.build_absolute_uri("/")
+        send_ticket_email_task.delay(self.object.id, absolute_uri)
+
         return super().form_valid(form)
 
     def get_success_url(self):

@@ -28,6 +28,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))  # Reads the .env file
 SECRET_KEY = env("SECRET_KEY")  # Keep the secret key used in production secret!
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
 
+# Celery settings
+CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
