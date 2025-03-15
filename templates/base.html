@@ -1,3 +1,4 @@
+{%load avatar_tags%}
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -72,7 +73,7 @@
             </div>
             <!-- Right Section: User -->
             <div class="user-profile">
-               <i class="bi bi-person-circle"></i>
+               {% avatar request.user 32 class="me-1 border border-secondary rounded-circle" %}
                <!-- Link the user profile to the profile page -->
                <a href="{% url 'profile' %}" class="text-decoration-none text-dark">
                   <span>{{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user.username }})</span>

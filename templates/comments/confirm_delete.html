@@ -19,8 +19,8 @@
       <div class="card mb-4">
         <div class="card-body">
           <div class="comment d-flex align-items-start">
-            <!-- TODO: AVATAR -->
-            <div class="me-3">{{ item.author.first_name }}</div>
+            {%load avatar_tags%}
+            {% avatar item.author 48 class="me-3" %}
             <div class="d-flex flex-column">
               <span class="text-muted" style="font-size: 0.8rem;">
                 {{ item.timestamp|date:"N j, Y, P" }} -

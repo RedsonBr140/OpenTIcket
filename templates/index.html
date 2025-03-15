@@ -7,15 +7,15 @@
                 <h5>{{ _("Filter by Status") }}</h5>
                 <form method="get" action="{% url 'ticket_list' %}" id="filter-form">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="open" name="status" value="new" onchange="document.getElementById('filter-form').submit();">
+                        <input class="form-check-input" type="radio" id="open" name="status" value="new" onchange="document.getElementById('filter-form').submit();">
                         <label class="form-check-label" for="open">{{ _("Open") }}</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="inProgress" name="status" value="in_progress" onchange="document.getElementById('filter-form').submit();">
+                        <input class="form-check-input" type="radio" id="inProgress" name="status" value="in_progress" onchange="document.getElementById('filter-form').submit();">
                         <label class="form-check-label" for="inProgress">{{ _("In Progress") }}</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="resolved" name="status" value="resolved" onchange="document.getElementById('filter-form').submit();">
+                        <input class="form-check-input" type="radio" id="resolved" name="status" value="resolved" onchange="document.getElementById('filter-form').submit();">
                         <label class="form-check-label" for="resolved">{{ _("Resolved") }}</label>
                     </div>
                 </form>

@@ -1,14 +1,9 @@
 {% load markdown_filters %}
+{% load avatar_tags %}
 {% block content %}
 <div id="r{{ reply.id }}" class="d-flex align-items-start ms-5">
   <a id="r{{ reply.id }}"></a>
-  <img
-    src="{{ reply.user }}"
-    alt="{{ reply.user.email }}"
-    height="48"
-    width="48"
-    class="me-3"
-  />
+  {% avatar reply.author 48 class="me-3" %}
   <div class="media-body">
     <div class="reply pb-3">
       <h6 class="mb-1 small">
