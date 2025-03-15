@@ -1,0 +1,40 @@
+{%load markdown_filters%}
+{% block content %}
+<div id="c{{ comment.id }}" class="d-flex">
+  <a id="c{{ comment.id }}"></a>
+  <img
+    src="{{ comment.user }}"
+    alt="{{ comment.user.email }}"
+    height="48"
+    width="48"
+    class="me-3"
+  />
+  <div class="media-body">
+    <div class="comment pb-3">
+      <h6 class="mb-1 small d-flex">
+        <span class="mr-auto">
+          {{ comment.author.first_name }} {{ comment.author.last_name }}
+          &nbsp;-&nbsp; {{ comment.timestamp|timesince }} ago
+        </span>
+      </h6>
+      <div class="content">{{ comment.text | markdown | safe }}</div>
+      <div class="mt-2">
+        <div class="comment-actions">
+          <a href="{%url 'add_reply' comment.id %}"><button class="btn btn-secondary btn-sm">{{ _("Reply") }}</button></a>
+      <form method="get" action="{% url 'delete_comment' comment.id %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-sm">{{ _("Delete") }}</button>
+      </form>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .content img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+{% endblock %}

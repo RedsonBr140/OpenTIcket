@@ -58,7 +58,6 @@ class Ticket(models.Model):
 
     # Fields for tracking resolution
     resolved_at = models.DateTimeField(null=True, blank=True)
-    resolution_notes = models.TextField(null=True, blank=True)
 
     # Relationships
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -78,8 +77,40 @@ class Ticket(models.Model):
         Department, on_delete=models.SET_NULL, related_name="department", null=True
     )
 
-    def get_absolute_url(self):
-        return reverse("ticket_detail", kwargs={"pk": self.pk})
-    
+    @property
+    def get_comments(self):
+        return self.comment_content.all()
+
     def __str__(self):
         return f"{self.title} - {self.status}"
+
+    def get_absolute_url(self):
+        return reverse("ticket_detail", kwargs={"pk": self.pk})
+
+
+class Comment(models.Model):
+    ticket = models.ForeignKey(
+        Ticket, on_delete=models.CASCADE, related_name="comment_content"
+    )
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+
+    def __str__(self):
+        return f"{self.author.first_name} {self.author.last_name} - {self.text}"
+
+@property
+def get_replies(self):
+    return self.replies.all()
+
+
+class Reply(models.Model):
+    comment = models.ForeignKey(
+        Comment, on_delete=models.CASCADE, related_name="replies"
+    )
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+
+    def __str__(self):
+        return self.author.name

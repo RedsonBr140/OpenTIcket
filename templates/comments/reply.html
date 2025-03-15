@@ -1,0 +1,34 @@
+{% load markdown_filters %}
+{% block content %}
+<div id="r{{ reply.id }}" class="d-flex align-items-start ms-5">
+  <a id="r{{ reply.id }}"></a>
+  <img
+    src="{{ reply.user }}"
+    alt="{{ reply.user.email }}"
+    height="48"
+    width="48"
+    class="me-3"
+  />
+  <div class="media-body">
+    <div class="reply pb-3">
+      <h6 class="mb-1 small">
+        <span>
+          {{ reply.author.first_name }} {{ reply.author.last_name }}
+          &nbsp;-&nbsp; {{ reply.timestamp|timesince }} ago
+        </span>
+      </h6>
+      <div class="content">{{ reply.text | markdown | safe }}</div>
+      <div class="mt-2">
+        <div class="reply-actions">
+          <form method="get" action="{% url 'delete_reply' reply.id %}" style="display:inline;">
+            {% csrf_token %}
+            {% if reply.author == user %}
+            <button type="submit" class="btn btn-danger btn-sm">{{ _("Delete") }}</button>
+            {% endif %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

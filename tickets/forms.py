@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 from django.utils.timezone import localtime
 from tickets import models
+from .models import Comment, Reply
 
 
 class TicketForm(forms.ModelForm):
@@ -104,3 +105,21 @@ class TicketListFilterForm(forms.Form):
             self.fields["department"].initial = ""
         if not self.data.get("company"):
             self.fields["company"].initial = ""
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["text"]
+        widgets = {
+            "text": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+        }
+
+
+class ReplyForm(forms.ModelForm):
+    class Meta:
+        model = Reply
+        fields = ["text"]
+        widgets = {
+            "text": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
+        }
