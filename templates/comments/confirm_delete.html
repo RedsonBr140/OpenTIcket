@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load markdown_filters %}
 
-{% block title %}{% trans "Remove item" %}{% endblock %}
+{% block title %}{% trans "Remove item" %}{% endblock title %}
 
 {% block content %}
 {% with comment as item %}
@@ -19,10 +19,10 @@
       <div class="card mb-4">
         <div class="card-body">
           <div class="comment d-flex align-items-start">
-            {%load avatar_tags%}
+            {% load avatar_tags %}
             {% avatar item.author 48 class="me-3" %}
             <div class="d-flex flex-column">
-              <span class="text-muted" style="font-size: 0.8rem;">
+              <span class="text-muted small-font">
                 {{ item.timestamp|date:"N j, Y, P" }} -
                 {{ item.author.first_name }} {{ item.author.last_name }}
               </span>
@@ -53,5 +53,8 @@
     max-width: 100%;
     height: auto;
   }
+  .small-font {
+    font-size: 0.8rem;
+  }
 </style>
-{% endblock %}
+{% endblock content %}

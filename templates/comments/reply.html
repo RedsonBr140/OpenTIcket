@@ -15,7 +15,7 @@
       <div class="content">{{ reply.text | markdown | safe }}</div>
       <div class="mt-2">
         <div class="reply-actions">
-          <form method="get" action="{% url 'delete_reply' reply.id %}" style="display:inline;">
+          <form method="get" action="{% url 'delete_reply' reply.id %}" class="inline-form">
             {% csrf_token %}
             {% if reply.author == user %}
             <button type="submit" class="btn btn-danger btn-sm">{{ _("Delete") }}</button>
@@ -26,4 +26,4 @@
     </div>
   </div>
 </div>
-{% endblock %}
+{% endblock content %}

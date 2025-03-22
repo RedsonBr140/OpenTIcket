@@ -5,13 +5,18 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    UpdateView,
+    CreateView,
+)
 from django.views.generic.edit import FormView
 from openpyxl.utils import get_column_letter
 
-from tickets.forms import TicketForm, TicketListFilterForm, CommentForm, ReplyForm
+from tickets.forms import TicketForm, TicketListFilterForm
 from tickets.utils import StaffMemberRequiredMixin
-from .models import Ticket, Comment, Reply
+from .models import Ticket
 from .tasks import send_ticket_email_task
 
 
@@ -63,8 +68,8 @@ class TicketDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         ticket = get_object_or_404(Ticket, id=self.kwargs["pk"])
         if (
-                not self.request.user.is_staff
-                and ticket.author.id is not self.request.user.id
+            not self.request.user.is_staff
+            and ticket.author.id is not self.request.user.id
         ):
             return render(self.request, "authorization_error.html")
 
@@ -212,70 +217,3 @@ class TicketListView(LoginRequiredMixin, ListView):
             return response
 
         return super().render_to_response(context, **response_kwargs)
-
-
-class CommentCreateView(LoginRequiredMixin, FormView):
-    form_class = CommentForm
-    template_name = "comments/form.html"
-
-    def form_valid(self, form):
-        ticket = get_object_or_404(Ticket, pk=self.kwargs["pk"])
-        comment = form.save(commit=False)
-        comment.author = self.request.user
-        comment.ticket = ticket
-        comment.save()
-        return redirect("ticket_detail", pk=ticket.pk)
-
-
-class CommentDeleteView(LoginRequiredMixin, DeleteView):
-    model = Comment
-    success_url = "/ticket/{ticket_id}"
-    template_name = "comments/confirm_delete.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["ticket_id"] = self.get_object().ticket.id
-        return context
-
-    def get(self, request, *args, **kwargs):
-        comment = self.get_object()
-
-        print(comment.author)
-        print(request.user)
-        if not request.user.is_staff or comment.author != request.user:
-            return render(request, "authorization_error.html")
-        return super().get(request, *args, **kwargs)
-
-
-class ReplyCreateView(LoginRequiredMixin, FormView):
-    form_class = ReplyForm
-    template_name = "comments/form.html"
-
-    def form_valid(self, form):
-        comment = get_object_or_404(Comment, pk=self.kwargs["pk"])
-        reply = form.save(commit=False)
-        reply.author = self.request.user
-        reply.comment = comment
-        reply.save()
-        return redirect("ticket_detail", pk=comment.ticket.pk)
-
-class ReplyDeleteView(LoginRequiredMixin, DeleteView):
-    model = Reply
-    template_name = "comments/confirm_delete.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["comment"] = self.get_object()
-        context["ticket_id"] = self.get_object().comment.ticket.id
-        return context
-
-    def get_success_url(self):
-        reply = self.get_object()
-        return reverse("ticket_detail", kwargs={"pk": reply.comment.ticket.pk})
-
-    def get(self, request, *args, **kwargs):
-        reply = self.get_object()
-
-        if not request.user.is_staff or reply.author != request.user:
-            return render(request, "authorization_error.html")
-        return super().get(request, *args, **kwargs)

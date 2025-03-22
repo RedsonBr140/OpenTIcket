@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "tickets",
     "accounts",
     "avatar",
+    "comments",
 ]
 
 MIDDLEWARE = [

@@ -1,7 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap");
+
+.icon-large {
+  font-size: 5rem;
+}
+
+.bold {
+  font-family: "Lexend Deca", sans-serif;
+  font-optical-sizing: auto;
+  font-style: bold;
+  font-weight: 700;
+}
+.navbar {
+  background-color: #f8f9fa; /* Light gray background */
+  border-bottom: 1px solid #ddd; /* Subtle border */
+}
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+.navbar-brand i {
+  margin-right: 5px;
+  color: blue;
+}
+.search-box {
+  width: 250px;
+}
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+.user-profile i {
+  margin-right: 5px;
+  color: #6c63ff;
+}
+.inline-form {
+  display: inline;
+}
+
 .ticket-description img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .ql-blank {
-    color: #f8f9fa;
+  color: #f8f9fa;
 }
