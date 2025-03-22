@@ -151,6 +151,8 @@ STATICFILES_DIRS = [
 
 STATIC_URL = "static/"
 
+AVATAR_CHANGE_TEMPLATE = "avatar/change.html"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

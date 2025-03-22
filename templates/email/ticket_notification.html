@@ -24,7 +24,7 @@
                         </span>
                     </p>
                     <p><strong>{{ _('Created at') }}:</strong> {{ ticket.created_at|date:"d/m/Y H:i" }}</p>
-                    <p><strong>{{ _('Created by') }}:</strong> {{ ticket.author.first_name }} {{ ticket.author.last_name }} ({{ ticket.author }})</p>
+                    <p><strong>{{ _('Created by') }}:</strong> {{ ticket.author.get_full_name }} ({{ ticket.author }})</p>
                     <p><strong>{{ _('Department') }}:</strong> {{ ticket.department }}</p>
                     <p><strong>{{ _('Company') }}:</strong> {{ ticket.company }}</p>
                     <hr>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-4">
-  <h2 class="mb-3">{{ form.instance.pk|yesno:"Edit Comment,Add Comment" }}</h2>
+  <h2 class="mb-3">{{ form.instance.pk|yesno:_("Edit Comment,Add Comment") }}</h2>
   <form method="post" onsubmit="populateHiddenField()">
     {% csrf_token %}
     {% csrf_token %}
@@ -15,7 +15,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">
-      {{ form.instance.pk|yesno:"Update,Submit" }}
+      {{ form.instance.pk|yesno:_("Update,Submit") }}
     </button>
   </form>
 </div>
@@ -57,4 +57,4 @@
     console.log(quillContent.value);
   };
 </script>
-{% endblock %}
+{% endblock content %}

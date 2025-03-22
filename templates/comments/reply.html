@@ -8,7 +8,7 @@
     <div class="reply pb-3">
       <h6 class="mb-1 small">
         <span>
-          {{ reply.author.first_name }} {{ reply.author.last_name }}
+          {{ reply.author.get_full_name }}
           &nbsp;-&nbsp; {{ reply.timestamp|timesince }} ago
         </span>
       </h6>

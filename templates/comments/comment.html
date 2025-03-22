@@ -8,7 +8,7 @@
     <div class="comment pb-3">
       <h6 class="mb-1 small d-flex">
         <span class="mr-auto">
-          {{ comment.author.first_name }} {{ comment.author.last_name }}
+          {{ comment.author.get_full_name }}
           &nbsp;-&nbsp; {{ comment.timestamp|timesince }} ago
         </span>
       </h6>

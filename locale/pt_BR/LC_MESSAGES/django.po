@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-07 10:42-0300\n"
+"POT-Creation-Date: 2025-03-22 09:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Redson dos Santos <redson@riseup.net>\n"
 "Language-Team: Brazilian Portuguese <LL@li.org>\n"
@@ -18,15 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\OpenTIcket\urls.py:16
+#: .\OpenTIcket\urls.py:22
 msgid "OpenTIcket's admin page"
 msgstr "Página de administração do OpenTIcket"
 
-#: .\accounts\views.py:47
+#: .\accounts\views.py:46
 msgid ""
 "Please enter a valid username and password. Note that all the fields are "
 "case sensitive."
-msgstr "Por favor, insira um nome de usuário e senha válidos. Note que todos os campos são sensíveis a maiúsculas e minúsculas."
+msgstr ""
+"Por favor, insira um nome de usuário e senha válidos. Note que todos os "
+"campos são sensíveis a maiúsculas e minúsculas."
 
 #: .\templates\authorization_error.html:5
 msgid "Access Denied"
@@ -44,62 +46,129 @@ msgstr "Voltar"
 msgid "Return to Dashboard"
 msgstr "Retornar ao Painel"
 
-#: .\templates\email\ticket_new.html:4 .\templates\email\ticket_new.html:13
+#: .\templates\avatar\change.html:27
+msgid "Manage Your Avatar"
+msgstr "Gerenciar seu Avatar"
+
+#: .\templates\avatar\change.html:28
+msgid "Your current avatar:"
+msgstr "Seu avatar atual"
+
+#: .\templates\avatar\change.html:33
+msgid "You haven't uploaded an avatar yet. Please upload one now."
+msgstr "Você ainda não enviou nenhum avatar. Envie um agora."
+
+#: .\templates\avatar\change.html:42
+msgid "Choose New Default"
+msgstr "Escolher o Novo Padrão"
+
+#: .\templates\avatar\change.html:52
+msgid "Upload New Image"
+msgstr "Enviar uma Nova Imagem"
+
+#: .\templates\comments\comment.html:18
+msgid "Reply"
+msgstr "Responder"
+
+#: .\templates\comments\comment.html:21 .\templates\comments\reply.html:21
+msgid "Delete"
+msgstr "Apagar"
+
+#: .\templates\comments\confirm_delete.html:5
+msgid "Remove item"
+msgstr "Remover item"
+
+#: .\templates\comments\confirm_delete.html:12
+msgid "Remove this item?"
+msgstr "Remover esse item?"
+
+#: .\templates\comments\confirm_delete.html:13
+msgid "Click on the remove button to delete the following item:"
+msgstr "Clique no botão de remover para apagar o item seguinte:"
+
+#: .\templates\comments\confirm_delete.html:43
+msgid "Remove"
+msgstr "Remover"
+
+#: .\templates\comments\confirm_delete.html:44
+#, fuzzy
+#| msgid "Canceled"
+msgid "Cancel"
+msgstr "Cancelado"
+
+#: .\templates\comments\form.html:4
+msgid "Edit Comment,Add Comment"
+msgstr "Editar Comentário,Adicionar um Comentário"
+
+#: .\templates\comments\form.html:18
+msgid "Update,Submit"
+msgstr "Atualizar,Enviar"
+
+#: .\templates\email\ticket_notification.html:4
+#: .\templates\email\ticket_notification.html:13
 msgid "New Ticket Created"
 msgstr "Novo Ticket Criado"
 
-#: .\templates\email\ticket_new.html:18
-msgid "A new support ticket has been created. Please review the details below."
-msgstr "Um novo ticket de suporte foi criado. Por favor, reveja os detalhes abaixo."
-
-#: .\templates\email\ticket_new.html:19
-#: .\templates\tickets\ticket_detail.html:48
-msgid "Ticket ID"
-msgstr "ID do Ticket"
-
-#: .\templates\email\ticket_new.html:20
+#: .\templates\email\ticket_notification.html:18
 msgid "Title"
 msgstr "Título"
 
-#: .\templates\email\ticket_new.html:21 .\templates\index.html:28
-#: .\templates\tickets\ticket_detail.html:14
-#: .\templates\tickets\ticket_edit.html:50
+#: .\templates\email\ticket_notification.html:19
+msgid "A new support ticket has been created. Please review the details below."
+msgstr ""
+"Um novo ticket de suporte foi criado. Por favor, reveja os detalhes abaixo."
+
+#: .\templates\email\ticket_notification.html:20
+#: .\templates\tickets\ticket_detail.html:75
+msgid "Ticket ID"
+msgstr "ID do Ticket"
+
+#: .\templates\email\ticket_notification.html:21 .\templates\index.html:30
+#: .\templates\registration\profile.html:37
+#: .\templates\registration\profile.html:45
+#: .\templates\tickets\ticket_detail.html:20
 #: .\templates\tickets\ticket_list.html:11
 msgid "Status"
 msgstr "Status"
 
-#: .\templates\email\ticket_new.html:22
-#: .\templates\tickets\ticket_detail.html:49
-#: .\templates\tickets\ticket_edit.html:62
+#: .\templates\email\ticket_notification.html:22
+#: .\templates\tickets\ticket_detail.html:78
 #: .\templates\tickets\ticket_list.html:15
 msgid "Priority"
 msgstr "Prioridade"
 
-#: .\templates\email\ticket_new.html:27
-#: .\templates\tickets\ticket_detail.html:17
+#: .\templates\email\ticket_notification.html:27
+#: .\templates\tickets\ticket_detail.html:27
 msgid "Created at"
 msgstr "Criado em"
 
-#: .\templates\email\ticket_new.html:28
-#: .\templates\tickets\ticket_detail.html:18
+#: .\templates\email\ticket_notification.html:28
+#: .\templates\tickets\ticket_detail.html:31
 msgid "Created by"
 msgstr "Criado por"
 
-#: .\templates\email\ticket_new.html:29
-#: .\templates\tickets\ticket_detail.html:54
+#: .\templates\email\ticket_notification.html:29
+#: .\templates\tickets\ticket_detail.html:96
 #: .\templates\tickets\ticket_list.html:27
-#: .\templates\tickets\ticket_new.html:76 .\tickets\models.py:8
+#: .\templates\tickets\ticket_new.html:76 .\tickets\models.py:9
 msgid "Department"
 msgstr "Departamento"
 
-#: .\templates\email\ticket_new.html:31
-#: .\templates\tickets\ticket_detail.html:35
-#: .\templates\tickets\ticket_edit.html:44
+#: .\templates\email\ticket_notification.html:30
+#: .\templates\tickets\ticket_detail.html:93
+#: .\templates\tickets\ticket_list.html:23
+#: .\templates\tickets\ticket_new.html:58 .\tickets\models.py:20
+msgid "Company"
+msgstr "Empresa"
+
+#: .\templates\email\ticket_notification.html:32
+#: .\templates\tickets\ticket_detail.html:11
+#: .\templates\tickets\ticket_edit.html:24
 #: .\templates\tickets\ticket_new.html:44
 msgid "Description"
 msgstr "Descrição"
 
-#: .\templates\email\ticket_new.html:37
+#: .\templates\email\ticket_notification.html:38
 msgid "View Ticket"
 msgstr "Ver Ticket"
 
@@ -115,51 +184,45 @@ msgstr "Ver Tickets Existentes"
 msgid "Filter by Status"
 msgstr "Filtrar por Status"
 
-#: .\templates\index.html:10
+#: .\templates\index.html:11
 msgid "Open"
 msgstr "Aberto"
 
-#: .\templates\index.html:14 .\tickets\models.py:42
+#: .\templates\index.html:15 .\tickets\models.py:43
 msgid "In Progress"
 msgstr "Em Progresso"
 
-#: .\templates\index.html:18
-msgid "Closed"
-msgstr "Fechado"
+#: .\templates\index.html:19 .\tickets\models.py:44
+msgid "Resolved"
+msgstr "Resolvido"
 
-#: .\templates\index.html:22
+#: .\templates\index.html:24
 msgid "Your Tickets"
 msgstr "Seus Tickets"
 
-#: .\templates\index.html:29
+#: .\templates\index.html:31
 msgid "Assigned to"
 msgstr "Atribuído a"
 
-#: .\templates\index.html:30
+#: .\templates\index.html:31 .\templates\tickets\ticket_detail.html:89
+#: .\templates\tickets\ticket_list.html:63
+msgid "Unassigned"
+msgstr "Não atribuído"
+
+#: .\templates\index.html:32
 msgid "Last Update"
 msgstr "Última Atualização"
 
-#: .\templates\index.html:31 .\templates\tickets\ticket_list.html:67
+#: .\templates\index.html:33 .\templates\tickets\ticket_list.html:68
 msgid "View Details"
 msgstr "Ver Detalhes"
-
-#: .\templates\index.html:41
-msgid "Contact Us"
-msgstr "Contate-Nos"
-
-#: .\templates\index.html:41
-msgid "Terms of Service"
-msgstr "Termos de Serviço"
-
-#: .\templates\index.html:41
-msgid "Privacy Policy"
-msgstr "Política de Privacidade"
 
 #: .\templates\registration\login.html:5 .\templates\registration\login.html:47
 msgid "Log in"
 msgstr "Entrar"
 
 #: .\templates\registration\login.html:19
+#: .\templates\registration\profile.html:46
 msgid "User"
 msgstr "Usuário"
 
@@ -200,6 +263,62 @@ msgstr "Obrigado pelo seu tempo aqui hoje."
 msgid "Log in again"
 msgstr "Entrar novamente"
 
+#: .\templates\registration\profile.html:4
+msgid "Profile"
+msgstr "Perfil"
+
+#: .\templates\registration\profile.html:11
+msgid "Change Avatar"
+msgstr "Mudar o Avatar"
+
+#: .\templates\registration\profile.html:14
+#: .\templates\registration\profile.html:56
+#: .\templates\registration\register.html:38
+msgid "Username"
+msgstr "Nome de usuário"
+
+#: .\templates\registration\profile.html:21
+#: .\templates\registration\profile.html:61
+#: .\templates\registration\register.html:53
+msgid "Email"
+msgstr "Email"
+
+#: .\templates\registration\profile.html:28
+msgid "Full Name"
+msgstr "Nome Completo"
+
+#: .\templates\registration\profile.html:38
+msgid "Admin"
+msgstr "Administrador"
+
+#: .\templates\registration\profile.html:39
+msgid "Go to Admin Panel"
+msgstr "Ir para o Painel de Administrador"
+
+#: .\templates\registration\profile.html:66
+#, fuzzy
+#| msgid "First name"
+msgid "First Name"
+msgstr "Primeiro nome"
+
+#: .\templates\registration\profile.html:71
+#, fuzzy
+#| msgid "Last name"
+msgid "Last Name"
+msgstr "Último nome"
+
+#: .\templates\registration\profile.html:76
+msgid "Update Profile"
+msgstr "Atualizar Perfil"
+
+#: .\templates\registration\profile.html:82
+msgid "Change Password"
+msgstr "Mudar Senha"
+
+#: .\templates\registration\profile.html:86
+msgid "Logout"
+msgstr "Sair"
+
 #: .\templates\registration\register.html:5
 #: .\templates\registration\register.html:93
 msgid "Register"
@@ -213,72 +332,57 @@ msgstr "Primeiro nome"
 msgid "Last name"
 msgstr "Último nome"
 
-#: .\templates\registration\register.html:38
-msgid "Username"
-msgstr "Nome de usuário"
-
-#: .\templates\registration\register.html:53
-msgid "Email"
-msgstr "Email"
-
 #: .\templates\registration\register.html:81
 msgid "Confirm password"
 msgstr "Confirmar senha"
 
-#: .\templates\tickets\ticket_detail.html:20
+#: .\templates\tickets\ticket_detail.html:35
 msgid "Last updated"
 msgstr "Última atualização"
 
-#: .\templates\tickets\ticket_detail.html:23
-#: .\templates\tickets\ticket_edit.html:56
+#: .\templates\tickets\ticket_detail.html:41
 msgid "Resolved at"
 msgstr "Resolvido em"
 
-#: .\templates\tickets\ticket_detail.html:29
+#: .\templates\tickets\ticket_detail.html:47
 msgid "Resolution notes"
 msgstr "Notas de resolução"
 
-#: .\templates\tickets\ticket_detail.html:44
+#: .\templates\tickets\ticket_detail.html:54
+msgid "No comments yet."
+msgstr "Nenhum comentário ainda."
+
+#: .\templates\tickets\ticket_detail.html:60
+msgid "Add Comment"
+msgstr "Adicionar um Comentário"
+
+#: .\templates\tickets\ticket_detail.html:70
 msgid "Ticket Details"
 msgstr "Detalhes do Ticket"
 
-#: .\templates\tickets\ticket_detail.html:52
-#: .\templates\tickets\ticket_edit.html:68
+#: .\templates\tickets\ticket_detail.html:85
 #: .\templates\tickets\ticket_list.html:19
 msgid "Assigned To"
 msgstr "Atribuído a"
 
-#: .\templates\tickets\ticket_detail.html:52
-#: .\templates\tickets\ticket_list.html:62
-msgid "Unassigned"
-msgstr "Não atribuído"
-
-#: .\templates\tickets\ticket_detail.html:53
-#: .\templates\tickets\ticket_list.html:23
-#: .\templates\tickets\ticket_new.html:58 .\tickets\models.py:19
-msgid "Company"
-msgstr "Empresa"
-
-#: .\templates\tickets\ticket_detail.html:63
+#: .\templates\tickets\ticket_detail.html:107
 msgid "Back to List"
 msgstr "Voltar para a Lista"
 
-#: .\templates\tickets\ticket_detail.html:65
-#: .\templates\tickets\ticket_list.html:68
+#: .\templates\tickets\ticket_detail.html:111
+#: .\templates\tickets\ticket_list.html:69
 msgid "Edit"
 msgstr "Editar"
 
-#: .\templates\tickets\ticket_edit.html:25
+#: .\templates\tickets\ticket_edit.html:3
+#: .\templates\tickets\ticket_edit.html:8
 msgid "Edit Ticket"
 msgstr "Editar Ticket"
 
-#: .\templates\tickets\ticket_edit.html:74
-msgid "Resolution Notes"
-msgstr "Notas de Resolução"
-
-#: .\templates\tickets\ticket_edit.html:81
-msgid "Update Ticket"
-msgstr "Atualizar Ticket"
+#: .\templates\tickets\ticket_edit.html:37
+#: .\templates\tickets\ticket_new.html:94
+msgid "Submit Ticket"
+msgstr "Enviar Ticket"
 
 #: .\templates\tickets\ticket_list.html:5
 msgid "Ticket List"
@@ -312,27 +416,37 @@ msgstr "Criado:"
 msgid "Priority:"
 msgstr "Prioridade:"
 
-#: .\templates\tickets\ticket_list.html:60
+#: .\templates\tickets\ticket_list.html:58
+#, fuzzy
+#| msgid "Department"
+msgid "Department:"
+msgstr "Departamento"
+
+#: .\templates\tickets\ticket_list.html:61
 msgid "Company:"
 msgstr "Empresa:"
 
-#: .\templates\tickets\ticket_list.html:61
+#: .\templates\tickets\ticket_list.html:62
 msgid "Assigned to:"
 msgstr "Atribuído a:"
 
-#: .\templates\tickets\ticket_list.html:74
+#: .\templates\tickets\ticket_list.html:75
 msgid "No tickets found"
 msgstr "Nenhum ticket encontrado"
 
-#: .\templates\tickets\ticket_list.html:90
+#: .\templates\tickets\ticket_list.html:88
+msgid "First"
+msgstr "Primeira"
+
+#: .\templates\tickets\ticket_list.html:91
 msgid "Previous"
 msgstr "Anterior"
 
-#: .\templates\tickets\ticket_list.html:100
+#: .\templates\tickets\ticket_list.html:101
 msgid "Next"
 msgstr "Próximo"
 
-#: .\templates\tickets\ticket_list.html:103
+#: .\templates\tickets\ticket_list.html:104
 msgid "Last"
 msgstr "Último"
 
@@ -344,66 +458,73 @@ msgstr "Abrir um Novo Ticket"
 msgid "Ticket Title"
 msgstr "Título do Ticket"
 
-#: .\templates\tickets\ticket_new.html:94
-msgid "Submit Ticket"
-msgstr "Enviar Ticket"
-
-#: .\tickets\forms.py:16
+#: .\tickets\forms.py:15
 msgid "Enter ticket title"
 msgstr "Digite o título do ticket"
 
-#: .\tickets\forms.py:43
+#: .\tickets\forms.py:42
 msgid "You need to provide a description!"
 msgstr "Você precisa fornecer uma descrição!"
 
-#: .\tickets\forms.py:108
+#: .\tickets\forms.py:54
 msgid "All Status"
 msgstr "Todos os Status"
 
-#: .\tickets\forms.py:113
+#: .\tickets\forms.py:59
 msgid "All Priorities"
 msgstr "Todas as Prioridades"
 
-#: .\tickets\models.py:9
+#: .\tickets\models.py:10
 msgid "Departments"
 msgstr "Departamentos"
 
-#: .\tickets\models.py:20
+#: .\tickets\models.py:21
 msgid "Companies"
 msgstr "Empresas"
 
-#: .\tickets\models.py:30
+#: .\tickets\models.py:31
 msgid "Ticket"
 msgstr "Ticket"
 
-#: .\tickets\models.py:31
+#: .\tickets\models.py:32
 msgid "Tickets"
 msgstr "Tickets"
 
-#: .\tickets\models.py:41
+#: .\tickets\models.py:42
 msgid "New"
 msgstr "Novo"
 
-#: .\tickets\models.py:43
-msgid "Resolved"
-msgstr "Resolvido"
-
-#: .\tickets\models.py:44
+#: .\tickets\models.py:45
 msgid "Canceled"
 msgstr "Cancelado"
 
-#: .\tickets\models.py:47
+#: .\tickets\models.py:48
 msgid "Low"
 msgstr "Baixa"
 
-#: .\tickets\models.py:48
+#: .\tickets\models.py:49
 msgid "Medium"
 msgstr "Média"
 
-#: .\tickets\models.py:49
+#: .\tickets\models.py:50
 msgid "High"
 msgstr "Alta"
 
-#: .\tickets\utils.py:28
+#: .\tickets\tasks.py:24
 msgid "New Ticket"
 msgstr "Novo Ticket"
+
+#~ msgid "Closed"
+#~ msgstr "Fechado"
+
+#~ msgid "Contact Us"
+#~ msgstr "Contate-Nos"
+
+#~ msgid "Terms of Service"
+#~ msgstr "Termos de Serviço"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Política de Privacidade"
+
+#~ msgid "Resolution Notes"
+#~ msgstr "Notas de Resolução"
