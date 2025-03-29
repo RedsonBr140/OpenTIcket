@@ -50,6 +50,7 @@ jobs:
           echo "SECRET_KEY=ThisIsASuperSecureKey" >> $GITHUB_ENV
           echo "CELERY_BROKER_URL=redis://localhost:6379/0" >> $GITHUB_ENV
           echo "CELERY_RESULT_BACKEND=redis://localhost:6379/0" >> $GITHUB_ENV
+          echo "DATABASE_URL=postgres://postgres:password@localhost:5432/ti-chamados" >> $GITHUB_ENV
 
       - name: Make the database migrations
         run: python manage.py makemigrations
@@ -58,8 +59,6 @@ jobs:
         run:  python manage.py migrate
 
       - name: Run Tests
-        env:
-          DATABASE_URL: postgres://postgres:password@localhost:5432/ti-chamados
         run: |
           pytest --disable-warnings --no-migrations
 
