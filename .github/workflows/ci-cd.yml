@@ -49,10 +49,11 @@ jobs:
           echo "DJANGO_SETTINGS_MODULE=OpenTIcket.settings_dev" >> $GITHUB_ENV
           echo "SECRET_KEY=ThisIsASuperSecureKey" >> $GITHUB_ENV
 
-      - name: Set up Database
-        run: |
-          python manage.py makemigrations
-          python manage.py migrate
+      - name: Make the database migrations
+        run: python manage.py makemigrations
+
+      - name: Migrate the database
+        run:  python manage.py migrate
 
       - name: Run Tests
         env:
