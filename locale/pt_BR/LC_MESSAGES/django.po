@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-22 09:18-0300\n"
+"POT-Creation-Date: 2025-04-05 08:27-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Redson dos Santos <redson@riseup.net>\n"
 "Language-Team: Brazilian Portuguese <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\OpenTIcket\urls.py:22
+#: .\OpenTIcket\urls.py:25
 msgid "OpenTIcket's admin page"
 msgstr "Página de administração do OpenTIcket"
 
@@ -104,6 +104,95 @@ msgstr "Editar Comentário,Adicionar um Comentário"
 msgid "Update,Submit"
 msgstr "Atualizar,Enviar"
 
+#: .\templates\dashboard.html:5
+#, fuzzy
+#| msgid "Return to Dashboard"
+msgid "Dashboard"
+msgstr "Retornar ao Painel"
+
+#: .\templates\dashboard.html:7
+#, fuzzy
+#| msgid "Create New Ticket"
+msgid "Create Ticket"
+msgstr "Criar Novo Ticket"
+
+#: .\templates\dashboard.html:8
+#, fuzzy
+#| msgid "Ticket List"
+msgid "View All Tickets"
+msgstr "Ver Todos os Tickets"
+
+#: .\templates\dashboard.html:18
+msgid "Total Tickets"
+msgstr "No Total"
+
+#: .\templates\dashboard.html:26
+msgid "New This Week"
+msgstr "Novos Essa Semana"
+
+#: .\templates\dashboard.html:34
+msgid "Pending"
+msgstr "Pendentes"
+
+#: .\templates\dashboard.html:42
+msgid "Closed"
+msgstr "Fechado"
+
+#: .\templates\dashboard.html:50
+msgid "Tickets Resolved Per Month"
+msgstr "Tickets Resolvidos Por Mês"
+
+#: .\templates\dashboard.html:58
+msgid "Users with Most Tickets"
+msgstr "Usuário com Mais Tickets"
+
+#: .\templates\dashboard.html:74
+msgid "Latest Tickets"
+msgstr "Últimos Tickets"
+
+#: .\templates\dashboard.html:80
+msgid "Requester"
+msgstr "Autor"
+
+#: .\templates\dashboard.html:81
+msgid "Subject"
+msgstr "Título"
+
+#: .\templates\dashboard.html:82 .\templates\email\ticket_notification.html:21
+#: .\templates\index.html:30 .\templates\registration\profile.html:37
+#: .\templates\registration\profile.html:45
+#: .\templates\tickets\ticket_detail.html:20
+#: .\templates\tickets\ticket_list.html:11
+msgid "Status"
+msgstr "Status"
+
+#: .\templates\dashboard.html:83 .\templates\email\ticket_notification.html:22
+#: .\templates\tickets\ticket_detail.html:78
+#: .\templates\tickets\ticket_list.html:15
+msgid "Priority"
+msgstr "Prioridade"
+
+#: .\templates\dashboard.html:84 .\templates\tickets\ticket_detail.html:85
+#: .\templates\tickets\ticket_list.html:19
+msgid "Assigned To"
+msgstr "Atribuído a"
+
+#: .\templates\dashboard.html:85
+#, fuzzy
+#| msgid "Created at"
+msgid "Created At"
+msgstr "Criado em"
+
+#: .\templates\dashboard.html:99 .\templates\index.html:31
+#: .\templates\tickets\ticket_detail.html:89
+#: .\templates\tickets\ticket_list.html:63
+msgid "Unassigned"
+msgstr "Não atribuído"
+
+#: .\templates\dashboard.html:119
+msgid "Resolved Tickets"
+msgstr "Tickets Resolvidos"
+
 #: .\templates\email\ticket_notification.html:4
 #: .\templates\email\ticket_notification.html:13
 msgid "New Ticket Created"
@@ -122,20 +211,6 @@ msgstr ""
 #: .\templates\tickets\ticket_detail.html:75
 msgid "Ticket ID"
 msgstr "ID do Ticket"
-
-#: .\templates\email\ticket_notification.html:21 .\templates\index.html:30
-#: .\templates\registration\profile.html:37
-#: .\templates\registration\profile.html:45
-#: .\templates\tickets\ticket_detail.html:20
-#: .\templates\tickets\ticket_list.html:11
-msgid "Status"
-msgstr "Status"
-
-#: .\templates\email\ticket_notification.html:22
-#: .\templates\tickets\ticket_detail.html:78
-#: .\templates\tickets\ticket_list.html:15
-msgid "Priority"
-msgstr "Prioridade"
 
 #: .\templates\email\ticket_notification.html:27
 #: .\templates\tickets\ticket_detail.html:27
@@ -203,11 +278,6 @@ msgstr "Seus Tickets"
 #: .\templates\index.html:31
 msgid "Assigned to"
 msgstr "Atribuído a"
-
-#: .\templates\index.html:31 .\templates\tickets\ticket_detail.html:89
-#: .\templates\tickets\ticket_list.html:63
-msgid "Unassigned"
-msgstr "Não atribuído"
 
 #: .\templates\index.html:32
 msgid "Last Update"
@@ -360,11 +430,6 @@ msgstr "Adicionar um Comentário"
 msgid "Ticket Details"
 msgstr "Detalhes do Ticket"
 
-#: .\templates\tickets\ticket_detail.html:85
-#: .\templates\tickets\ticket_list.html:19
-msgid "Assigned To"
-msgstr "Atribuído a"
-
 #: .\templates\tickets\ticket_detail.html:107
 msgid "Back to List"
 msgstr "Voltar para a Lista"
@@ -510,12 +575,9 @@ msgstr "Média"
 msgid "High"
 msgstr "Alta"
 
-#: .\tickets\tasks.py:24
+#: .\tickets\tasks.py:53
 msgid "New Ticket"
 msgstr "Novo Ticket"
-
-#~ msgid "Closed"
-#~ msgstr "Fechado"
 
 #~ msgid "Contact Us"
 #~ msgstr "Contate-Nos"

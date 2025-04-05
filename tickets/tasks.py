@@ -12,6 +12,7 @@ from tickets.models import Ticket
 
 logger = logging.getLogger(__name__)
 
+
 @shared_task
 def send_ticket_email_task(ticket_id, absolute_uri):
     """
@@ -24,7 +25,7 @@ def send_ticket_email_task(ticket_id, absolute_uri):
     try:
         # Fetch admin users' email addresses
         admins_emails = list(
-            User.objects.filter(is_staff=True).values_list('email', flat=True)
+            User.objects.filter(is_staff=True).values_list("email", flat=True)
         )
         if not admins_emails:
             logger.warning("No admin users found to send the email.")
@@ -32,13 +33,13 @@ def send_ticket_email_task(ticket_id, absolute_uri):
 
         # Construct the ticket detail URL
         ticket_url = f"{absolute_uri}{reverse('ticket_detail', args=[ticket_id])}"
-        
+
         ticket = Ticket.objects.get(id=ticket_id)
 
         # Render email content
         html_content = render_to_string(
             "email/ticket_notification.html",
-            {"ticket": ticket, "reverse_url": ticket_url}
+            {"ticket": ticket, "reverse_url": ticket_url},
         )
         plain_text = strip_tags(html_content)
 

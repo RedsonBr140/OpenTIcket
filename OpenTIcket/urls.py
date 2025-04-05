@@ -1,13 +1,16 @@
 from django.contrib import admin
+from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import path, include
 from django.conf.urls.static import static
 from OpenTIcket import settings
-from .views import home
+from .views import DashboardView, HomeView
 from django.utils.translation import gettext as _
 from django.conf import settings
 
+
 urlpatterns = [
-    path("", home, name="home"),
+    path("dashboard", staff_member_required(DashboardView.as_view()), name="dashboard"),
+    path("", HomeView.as_view(), name="home"),
     path("", include("tickets.urls")),
     path("", include("comments.urls")),
     path("admin/", admin.site.urls),

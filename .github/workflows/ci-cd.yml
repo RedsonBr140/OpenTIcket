@@ -1,0 +1,68 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - prod
+      - development
+  pull_request:
+    branches:
+      - prod
+      - development
+
+jobs:
+  test:
+    name: Run Tests and Linting
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ti-chamados
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Set Environment Variables
+        run: |
+          echo "DJANGO_SETTINGS_MODULE=OpenTIcket.settings_dev" >> $GITHUB_ENV
+          echo "SECRET_KEY=ThisIsASuperSecureKey" >> $GITHUB_ENV
+          echo "CELERY_BROKER_URL=redis://localhost:6379/0" >> $GITHUB_ENV
+          echo "CELERY_RESULT_BACKEND=redis://localhost:6379/0" >> $GITHUB_ENV
+          echo "DATABASE_URL=postgres://postgres:password@localhost:5432/ti-chamados" >> $GITHUB_ENV
+
+      - name: Make the database migrations
+        run: python manage.py makemigrations
+
+      - name: Migrate the database
+        run:  python manage.py migrate
+
+      - name: Run Tests
+        run: |
+          pytest --disable-warnings --no-migrations
+
+      - name: Run Linting
+        run: |
+          pip install black
+          black --check .
