@@ -24,32 +24,38 @@
                <i class="bi bi-ticket-perforated"></i> <span class="bold">OpenTicket</span>
             </a>
             {% if request.user.is_authenticated %}
-            <!-- Center Search Bar -->
-            <div class="mx-auto">
-                    <form action="{% url 'ticket_list' %}" method="get" class="d-flex" onsubmit="return handleSearch(event)">
-                      <input class="form-control search-box" type="text" name="search_query" placeholder="Search tickets..." id="searchInput" value="{{ request.GET.search_query|default:'' }}">
-                      <button type="submit" class="btn btn-outline-primary ms-2 d-none">Search</button>
-                    </form>
-                    <script>
-                      function handleSearch(event) {
-                        event.preventDefault();
-                        const searchInput = document.getElementById('searchInput');
-                        const query = searchInput.value;
-                        if (query) {
-                           window.location.href = `{% url 'ticket_list' %}?search_query=${encodeURIComponent(query)}`;
-                        }
-                      }
-                    </script>
-            </div>
-            <!-- Right Section: User -->
-            <div class="user-profile">
-               {% avatar request.user 32 class="me-1 border border-secondary rounded-circle" %}
-               <!-- Link the user profile to the profile page -->
-               <a href="{% url 'profile' %}" class="text-decoration-none text-dark">
-                  <span>{{ request.user.get_full_name }} ({{ request.user.username }})</span>
-               </a>
-            </div>
-            {% endif %}
+<!-- Center Search Bar -->
+<div class="mx-auto">
+    <form action="{% url 'ticket_list' %}" method="get" class="d-flex" onsubmit="return handleSearch(event)">
+      <input class="form-control search-box" type="text" name="search_query" placeholder="Search tickets..." id="searchInput" value="{{ request.GET.search_query|default:'' }}">
+      <button type="submit" class="btn btn-outline-primary ms-2 d-none">Search</button>
+    </form>
+    <script>
+      function handleSearch(event) {
+        event.preventDefault();
+        const searchInput = document.getElementById('searchInput');
+        const query = searchInput.value;
+        if (query) {
+           window.location.href = `{% url 'ticket_list' %}?search_query=${encodeURIComponent(query)}`;
+        }
+      }
+    </script>
+</div>
+
+<!-- Right Section: User -->
+<div class="d-flex align-items-center gap-3">
+    {% if request.user.is_staff %}
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Dashboard</a>
+    {% endif %}
+    <div class="user-profile">
+        {% avatar request.user 32 class="me-1 border border-secondary rounded-circle" %}
+        <a href="{% url 'profile' %}" class="text-decoration-none text-dark">
+            <span>{{ request.user.get_full_name }} ({{ request.user.username }})</span>
+        </a>
+    </div>
+</div>
+{% endif %}
+
          </div>
       </nav>
       <div class="container mt-4">{% block content %}{% endblock content %}</div>

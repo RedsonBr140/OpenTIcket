@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ _("Dashboard") }}</h2>
+        <div>
+            <a href="{% url 'ticket_new' %}" class="btn btn-primary me-2">{{ _("Create Ticket") }}</a>
+            <a href="{% url 'ticket_list' %}" class="btn btn-secondary">{{ _("View All Tickets") }}</a>
+        </div>
+    </div>
+
+    <!-- Cards Summary -->
+    <div class="row text-white mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_tickets }}</h5>
+                    <p class="card-text">{{ _("Total Tickets") }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ new_tickets }}</h5>
+                    <p class="card-text">{{ _("New This Week") }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pending_tickets }}</h5>
+                    <p class="card-text">{{ _("Pending") }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ closed_tickets }}</h5>
+                    <p class="card-text">{{ _("Closed") }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart (placeholder for now) -->
+    <div class="card mb-4">
+        <div class="card-header">{{ _("Tickets Resolved Per Month") }}</div>
+        <div class="card-body">
+            <canvas id="ticketsChart" height="100"></canvas>
+        </div>
+    </div>
+
+<!-- Most Active Users -->
+<div class="card mb-4">
+    <div class="card-header">{{ _("Users with Most Tickets") }}</div>
+    <div class="card-body">
+        <ul class="list-group">
+            {% for user, count in top_users %}
+                <a href="{% url 'ticket_list' %}?search_query={{ user }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    {{ user }}
+                    <span class="badge bg-primary rounded-pill">{{ count }}</span>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+    <!-- Ticket List -->
+    <div class="card">
+        <div class="card-header">{{ _("Latest Tickets") }}</div>
+        <div class="table-responsive">
+            <table class="table mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>{{ _("Requester") }}</th>
+                        <th>{{ _("Subject") }}</th>
+                        <th>{{ _("Status") }}</th>
+                        <th>{{ _("Priority") }}</th>
+                        <th>{{ _("Assigned To") }}</th>
+                        <th>{{ _("Created At") }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in latest_tickets %}
+                    <tr>
+                        <td>#{{ ticket.id }}</td>
+                        <td>{{ ticket.author }}</td>
+                        <td>{{ ticket.title|truncatechars:40 }}</td>
+                        <td><span class="badge bg-{{ ticket.status_color }}">{{ ticket.get_status_display }}</span></td>
+                        <td>{{ ticket.get_priority_display }}</td>
+                        {% if ticket.assigned_to %}
+                        <td>{{ ticket.assigned_to.username }}</td>
+                        {% else %}
+                        <td>{{ _("Unassigned") }}</td>
+                        {% endif %}
+                        <td>{{ ticket.created_at|date:"d M Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('ticketsChart');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ chart_labels|safe }},
+            datasets: [{
+                label: '{{ _("Resolved Tickets") }}',
+                data: {{ chart_data|safe }},
+                borderColor: '#28a745',
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock content %}
