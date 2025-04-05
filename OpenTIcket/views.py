@@ -13,6 +13,7 @@ from calendar import month_name
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
+
 class DashboardView(LoginRequiredMixin, View):
     def get(self, request):
         context = {}

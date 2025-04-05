@@ -2,13 +2,16 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from tickets.models import Ticket, Company, Department
 
+
 class TicketModelTest(TestCase):
     def setUp(self):
         # Create related objects
         self.company = Company.objects.create(name="Test Company")
         self.department = Department.objects.create(name="Test Department")
         self.author = User.objects.create_user(username="author", password="password")
-        self.assigned_to = User.objects.create_user(username="assignee", password="password")
+        self.assigned_to = User.objects.create_user(
+            username="assignee", password="password"
+        )
 
         # Create a Ticket instance
         self.ticket = Ticket.objects.create(

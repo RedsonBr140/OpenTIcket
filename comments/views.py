@@ -8,6 +8,7 @@ from .forms import CommentForm, ReplyForm
 from tickets.models import Ticket
 from .models import Comment, Reply
 
+
 class CommentCreateView(LoginRequiredMixin, FormView):
     form_class = CommentForm
     template_name = "comments/form.html"
