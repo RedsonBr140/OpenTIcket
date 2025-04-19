@@ -9,7 +9,6 @@ from django.db.models import Count
 
 from django.db.models.functions import TruncMonth
 from django.db.models import Count
-from calendar import month_name
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
