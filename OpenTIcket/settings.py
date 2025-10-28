@@ -17,8 +17,13 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))  # Reads the .env file
+env = environ.Env(
+    # sensible defaults for Docker
+    DJANGO_LOG_DIR=(str, str(BASE_DIR / "logs")),
+    STATIC_ROOT=(str, "/app/static/"),
+    MEDIA_ROOT=(str, "/app/media/"),
+)
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))   # still reads .env if present
 
 
 # Quick-start development settings - unsuitable for production
@@ -41,24 +46,41 @@ DATABASES = {
     "default": env.db(),
 }
 
+DJANGO_LOG_DIR = env.path("DJANGO_LOG_DIR")   # Path object, creates dir if needed
+DJANGO_LOG_DIR.mkdir(parents=True, exist_ok=True)
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+    },
     "handlers": {
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        "file": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": DJANGO_LOG_DIR / "django.log",
+            "maxBytes": 10 * 1024 * 1024,   # 10 MB
+            "backupCount": 5,
+            "formatter": "verbose",
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["console"],
+            "handlers": ["console", "file"],
             "level": "INFO",
-            "propagate": True,
+            "propagate": False,
         },
     },
 }
-
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -145,16 +167,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_ROOT = "/var/www/static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = env.path("STATIC_ROOT")          # e.g. /app/static/
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-
-STATIC_URL = "static/"
-
-MEDIA_URL = "media/"
-MEDIA_ROOT = "/var/www/html/media/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = env.path("MEDIA_ROOT")            # e.g. /app/media/
 
 AVATAR_CHANGE_TEMPLATE = "avatar/change.html"
 
