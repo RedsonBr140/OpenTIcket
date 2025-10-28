@@ -46,7 +46,7 @@ DATABASES = {
     "default": env.db(),
 }
 
-DJANGO_LOG_DIR = env.path("DJANGO_LOG_DIR")   # Path object, creates dir if needed
+DJANGO_LOG_DIR = Path(env("DJANGO_LOG_DIR"))
 DJANGO_LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 LOGGING = {
@@ -168,11 +168,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = env.path("STATIC_ROOT")          # e.g. /app/static/
+STATIC_ROOT = Path(env("STATIC_ROOT"))          # e.g. /app/static/
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = env.path("MEDIA_ROOT")            # e.g. /app/media/
+MEDIA_ROOT = Path(env("MEDIA_ROOT"))            # e.g. /app/media/
 
 AVATAR_CHANGE_TEMPLATE = "avatar/change.html"
 
