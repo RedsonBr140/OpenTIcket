@@ -1,7 +1,8 @@
 from .settings import *
+from pathlib import Path
 
 DEBUG = False
-
+STATIC_ROOT = Path(env("STATIC_ROOT"))
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env("EMAIL_HOST")  # Replace with your SMTP host
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # Your email address

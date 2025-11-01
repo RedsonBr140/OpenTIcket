@@ -1,68 +1,59 @@
-services:
-  # Database service
-  db:
-    image: postgres:14
-    container_name: postgres_db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: ti-chamados
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql@14/data
-    networks:
-      - app-network
-
-  # Django application service
-  web:
-    build: .
-    container_name: openticket_web
-    command: gunicorn OpenTIcket.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-    environment:
-      - SECRET_KEY=${SECRET_KEY}
-      - DEBUG=False
-      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
-      - DATABASE_URL=postgres://postgres:password@db:5432/ti-chamados
-    depends_on:
-      - db
-    networks:
-      - app-network
-
-  # Nginx service (optional, but recommended for production)
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./static:/static
-      - ./media:/media
-    ports:
-      - "80:80"
-    depends_on:
-      - web
-    networks:
-      - app-network
-  redis-stack:
-    image: redis/redis-stack:latest
-    container_name: redis-stack
-    ports:
-      - "6379:6379"
-      - "8001:8001"
-    networks:
-      - app-network
-    volumes:
-      - redis_data:/data
 networks:
-  app-network:
+  openticketnet:
     driver: bridge
 
-volumes:
-  postgres_data:
-    driver: local
-  redis_data:
-    driver: local
+services:
+  web:
+    image: redsonbr/openticket:latest
+    container_name: openticket_web
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/app/logs
+      - ./media:/app/media
+      - ./static:/app/static
+    depends_on:
+      - db
+      - redis
+    networks:
+      - openticketnet
+  celery:
+    image: redsonbr/openticket:latest
+    container_name: openticket_celery
+    env_file:
+      - .env
+    restart: unless-stopped
+    command: celery -A OpenTIcket worker --loglevel=info
+    volumes:
+      - ./logs:/app/logs
+      - ./media:/app/media
+      - ./static:/app/static
+    depends_on:
+      - db
+      - redis
+    networks:
+      - openticketnet
+
+  db:
+    image: postgres:14
+    container_name: openticket_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ti-chamados
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - openticketnet
+  redis:
+    image: redis:8.2.2
+    container_name: openticket_redis
+    restart: unless-stopped
+    volumes:
+      - ./data/redis:/data
+    networks:
+      - openticketnet
